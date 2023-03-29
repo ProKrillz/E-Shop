@@ -7,6 +7,6 @@ public class Ordre
 
     public List<Product>? Products { get; set; }
 
-    public int Fk_UserId { get; set; }
+    public Guid Fk_UserId { get; set; }
     public User? User { get; set; }
 }

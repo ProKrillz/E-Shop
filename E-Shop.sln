@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-Shop", "E-Shop\E-Shop.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{1B037A5B-423A-44BF-B984-A1288BF617C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{02148765-6CEE-4864-8FC6-E7E33612CBCD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1B037A5B-423A-44BF-B984-A1288BF617C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B037A5B-423A-44BF-B984-A1288BF617C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B037A5B-423A-44BF-B984-A1288BF617C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02148765-6CEE-4864-8FC6-E7E33612CBCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02148765-6CEE-4864-8FC6-E7E33612CBCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02148765-6CEE-4864-8FC6-E7E33612CBCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02148765-6CEE-4864-8FC6-E7E33612CBCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

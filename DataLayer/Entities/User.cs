@@ -1,4 +1,8 @@
-﻿namespace DataLayer.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DataLayer.Entities;
+
+[NotMapped]
 public class User
 {
     public Guid UserId { get; set; }

@@ -4,6 +4,7 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EfCoreContext))]
-    partial class EfCoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230329184238_Initials2")]
+    partial class Initials2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +56,7 @@ namespace DataLayer.Migrations
                     b.HasKey("BrandId")
                         .HasName("brand_id");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brans", (string)null);
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Category", b =>
@@ -153,26 +156,6 @@ namespace DataLayer.Migrations
                     b.HasIndex("Fk_UserId");
 
                     b.ToTable("Ordres", (string)null);
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.OrdreProduct", b =>
-                {
-                    b.Property<int>("Fk_OrdreId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Fk_ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Amount")
-                        .HasMaxLength(100)
-                        .HasColumnType("int")
-                        .HasColumnName("ordre_product_amount");
-
-                    b.HasKey("Fk_OrdreId", "Fk_ProductId");
-
-                    b.HasIndex("Fk_ProductId");
-
-                    b.ToTable("OrdreProduct", (string)null);
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Payment", b =>
@@ -292,6 +275,21 @@ namespace DataLayer.Migrations
                     b.ToTable("ZipCodes", (string)null);
                 });
 
+            modelBuilder.Entity("OrdreProduct", b =>
+                {
+                    b.Property<int>("OrdresOrdreId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrdresOrdreId", "ProductsProductId");
+
+                    b.HasIndex("ProductsProductId");
+
+                    b.ToTable("ProductOrdre", (string)null);
+                });
+
             modelBuilder.Entity("CategoryProduct", b =>
                 {
                     b.HasOne("DataLayer.Entities.Category", null)
@@ -345,25 +343,6 @@ namespace DataLayer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.OrdreProduct", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Ordre", "Ordre")
-                        .WithMany("Products")
-                        .HasForeignKey("Fk_OrdreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.Entities.Product", "Product")
-                        .WithMany("Ordres")
-                        .HasForeignKey("Fk_ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ordre");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("DataLayer.Entities.Product", b =>
                 {
                     b.HasOne("DataLayer.Entities.Brand", "Brand")
@@ -386,6 +365,21 @@ namespace DataLayer.Migrations
                     b.Navigation("ZipCode");
                 });
 
+            modelBuilder.Entity("OrdreProduct", b =>
+                {
+                    b.HasOne("DataLayer.Entities.Ordre", null)
+                        .WithMany()
+                        .HasForeignKey("OrdresOrdreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.Entities.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DataLayer.Entities.Brand", b =>
                 {
                     b.Navigation("Products");
@@ -396,11 +390,6 @@ namespace DataLayer.Migrations
                     b.Navigation("Ordres");
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.Ordre", b =>
-                {
-                    b.Navigation("Products");
-                });
-
             modelBuilder.Entity("DataLayer.Entities.Payment", b =>
                 {
                     b.Navigation("Ordes");
@@ -409,8 +398,6 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DataLayer.Entities.Product", b =>
                 {
                     b.Navigation("Image");
-
-                    b.Navigation("Ordres");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.User", b =>

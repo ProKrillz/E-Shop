@@ -1,4 +1,9 @@
-﻿namespace DataLayer.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+
+namespace DataLayer.Entities;
+
+[NotMapped]
 public class Product
 {
     public int ProductId { get; set; }
@@ -13,5 +18,5 @@ public class Product
 
     public List<Category>? Categorys { get; set; }
 
-    public List<Ordre>? Ordres { get; set; }
+    public ICollection<OrdreProduct>? Ordres { get; set; }
 }

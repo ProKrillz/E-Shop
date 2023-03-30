@@ -4,8 +4,23 @@ using Microsoft.EntityFrameworkCore;
 namespace DataLayer;
 public class EfCoreContext : DbContext
 {
+    public DbSet<Product> Product { get; set; }
+    public DbSet<Brand> Brand { get; set; }
+    public DbSet<Category> Category { get; set; }
+    public DbSet<Image> Image { get; set; }
+    public DbSet<Ordre> Ordre { get; set; }
+    public DbSet<Delivery> Delivery { get; set; }
+    public DbSet<User> User { get; set; }
+    public DbSet<ZipCode> ZipCode { get; set; }
+
+    public EfCoreContext(DbContextOptions builder) : base(builder) { }
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlServer(@"Data Source=LAPTOP-HPD38H10\SQLEXPRESS;Database=Eshop;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+    {
+        if (!options.IsConfigured)
+            options.UseSqlServer(@"Data Source=LAPTOP-HPD38H10\SQLEXPRESS;Database=Eshop;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+           
+    }
+ 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region Product Table
@@ -25,6 +40,9 @@ public class EfCoreContext : DbContext
             .HasMaxLength(50);
 
         modelBuilder.Entity<Product>()
+            .HasIndex(p => p.Name);
+
+        modelBuilder.Entity<Product>()
             .Property(p => p.Description)
             .HasColumnName("product_description")
             .HasMaxLength(200);
@@ -39,7 +57,7 @@ public class EfCoreContext : DbContext
         #region Brand Table
 
         modelBuilder.Entity<Brand>()
-            .ToTable("Brans");
+            .ToTable("Brands");
 
         modelBuilder.Entity<Brand>()
             .HasKey(b => b.BrandId)
@@ -102,6 +120,36 @@ public class EfCoreContext : DbContext
         modelBuilder.Entity<Ordre>()
             .Property(o => o.Updated)
             .HasColumnName("ordre_updated");
+
+        #endregion
+
+        #region Delivery Table
+
+        modelBuilder.Entity<Delivery>()
+            .ToTable("Deliverys");
+
+        modelBuilder.Entity<Delivery>()
+            .HasKey(d => d.DeliveryId);
+
+        modelBuilder.Entity<Delivery>()
+            .Property(d => d.DeliveryOption)
+            .HasColumnName("delivery_option")
+            .HasMaxLength(15);
+
+        #endregion
+
+        #region Payment Table
+
+        modelBuilder.Entity<Payment>()
+            .ToTable("Payments");
+
+        modelBuilder.Entity<Payment>()
+            .HasKey(p => p.PaymentId);
+
+        modelBuilder.Entity<Payment>()
+            .Property(p => p.PaymentOption)
+            .HasColumnName("payment_option")
+            .HasMaxLength(15);
 
         #endregion
 
@@ -177,10 +225,20 @@ public class EfCoreContext : DbContext
             .WithMany(c => c.Products)
             .UsingEntity(j => j.ToTable("ProductCategory"));
 
-        modelBuilder.Entity<Product>()
-            .HasMany(p => p.Ordres)
-            .WithMany(o => o.Products)
-            .UsingEntity(j => j.ToTable("ProductOrdre"));
+        //modelBuilder.Entity<Product>()
+        //    .HasMany(p => p.Ordres)
+        //    .WithMany(o => o.Products)
+        //    .UsingEntity(j => j.ToTable("ProductOrdre"));
+
+        modelBuilder.Entity<Ordre>()
+            .HasOne(o => o.Payment)
+            .WithMany(p => p.Ordes)
+            .HasForeignKey(o => o.Fk_PayementId);
+
+        modelBuilder.Entity<Ordre>()
+            .HasOne(o => o.Delivery)
+            .WithMany(d => d.Ordres)
+            .HasForeignKey(o => o.Fk_DeliveryId);
 
         modelBuilder.Entity<User>()
             .HasOne(u => u.ZipCode)
@@ -191,7 +249,28 @@ public class EfCoreContext : DbContext
             .HasMany(u => u.Ordres)
             .WithOne(o => o.User)
             .HasForeignKey(o => o.Fk_UserId);
-            
+
+        modelBuilder.Entity<OrdreProduct>()
+            .ToTable("OrdreProduct");
+
+        modelBuilder.Entity<OrdreProduct>()
+            .HasKey(op => new { op.Fk_OrdreId, op.Fk_ProductId });
+
+        modelBuilder.Entity<OrdreProduct>()
+            .Property(op => op.Amount)
+            .HasColumnName("ordre_product_amount")
+            .HasMaxLength(100);
+
+        modelBuilder.Entity<OrdreProduct>()
+            .HasOne(op => op.Ordre)
+            .WithMany(p => p.Products)
+            .HasForeignKey(p => p.Fk_OrdreId);
+
+        modelBuilder.Entity<OrdreProduct>()
+            .HasOne(op => op.Product)
+            .WithMany(o => o.Ordres)
+            .HasForeignKey(op => op.Fk_ProductId);
+
         #endregion
     }
 }

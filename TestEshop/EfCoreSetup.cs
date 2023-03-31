@@ -31,7 +31,7 @@ namespace TestEshop
             });
             context.Add(new Category()
             {
-                CategoryId = 1,
+                CategoryId = 1, 
                 Name = "Sodavand",
             });
             context.AddRange(new Brand()
@@ -46,6 +46,7 @@ namespace TestEshop
             });
             context.AddRange(new Product()
             {
+                ProductId = 1,
                 Name = "Booster",
                 Description = "Smager godt",
                 Price = 10,
@@ -53,6 +54,7 @@ namespace TestEshop
             },
             new Product()
             {
+                ProductId = 2,
                 Name = "card",
                 Description = "Hygge spil",
                 Price = 20,

@@ -1,6 +1,5 @@
 ﻿using DataLayer.Entities;
 using ServiceLayer.DTO;
-using System.Security.Cryptography.X509Certificates;
 
 namespace ServiceLayer.Mapping;
 

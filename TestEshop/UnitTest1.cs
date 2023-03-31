@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ServiceLayer.DTO;
 using ServiceLayer.I_R;
 
@@ -52,24 +53,30 @@ namespace TestEshop
         {
             var context = EfCoreSetup.CreateContext();
             IOrdre ordreService = new RepositoryOrdre(context);
+            IProduct productService = new RepositoryProduct(context);
+            
+            ICollection<OrdreProduct> produces = new HashSet<OrdreProduct>() {
+                new OrdreProduct() {
+                Amount = 2,
+                Fk_ProductId = 1
+                },
+                new OrdreProduct(){
+                Amount = 5,
+                Fk_ProductId = 2      
+                } };
             Ordre newOrdre = new Ordre()
             {
                 OrdreId = 2,
                 Fk_DeliveryId = 1,
                 Fk_PayementId = 1,
                 Fk_UserId = Guid.Parse("ea28b4cc-065b-414a-a8a3-59224d2fb567"),
+                Products = produces,
             };
-            ICollection<OrdreProduct> produces = new HashSet<OrdreProduct>() {
-                new OrdreProduct() {
-                Fk_OrdreId = 2,
-                Fk_ProductId = 1,
-                },
-                new OrdreProduct(){
-                Fk_OrdreId = 2,
-                Fk_ProductId = 2,
-                } };
-            
+            await ordreService.CreateOrdreAsync(newOrdre);
+            Ordre foundOrdre = context.Ordre.Where(o => o.OrdreId == 2).FirstOrDefault();
 
+            Assert.Equal(foundOrdre.Products.Count(), 2);
+            Assert.Equal(foundOrdre.OrdreId, 2);
         }
         [Fact]
         public async Task TestGetOrdreById()
@@ -84,6 +91,19 @@ namespace TestEshop
             Assert.Equal(foundOrdre.Fk_DeliveryId, 1);
             Assert.Equal(foundOrdre.Fk_UserId, Guid.Parse("ea28b4cc-065b-414a-a8a3-59224d2fb567"));
             Assert.NotNull(foundOrdre.Created);
+        }
+        [Fact]
+        public async Task TestUpdateUser()
+        {
+            var context = EfCoreSetup.CreateContext();
+            IUser userService = new RepositoryUser(context);
+
+            User foundUser = await userService.GetUserByGuidAsync(Guid.Parse("ea28b4cc-065b-414a-a8a3-59224d2fb567"));
+            foundUser.FirstName = "Kevin";
+            await userService.UpdateUserAsync(foundUser);
+            User updateUser = await userService.GetUserByGuidAsync(Guid.Parse("ea28b4cc-065b-414a-a8a3-59224d2fb567"));
+
+            Assert.Equal(updateUser.FirstName, "Kevin");
         }
         [Fact]
         public async Task TestSearchProductByNameText()

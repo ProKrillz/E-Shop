@@ -17,10 +17,8 @@ public class RepositoryProduct : IProduct
         => await _coreContext.Product.MappingProductToProductDTO().ToListAsync();
     
     public async Task<List<ProductDTO>> SearchProductByProductTextAsync(string text)
-    {
-        return await _coreContext.Product.Where(p => EF.Functions.Like(p.Name, text)).MappingProductToProductDTO().ToListAsync();
-    }
-
+        => await _coreContext.Product.Where(p => EF.Functions.Like(p.Name, text)).MappingProductToProductDTO().ToListAsync();
+    
     public async Task<ProductDTO> GetProductByIdAsync(int id)
     {
         Product FoundProduct = await _coreContext.Product.Where(p => p.ProductId == id).FirstOrDefaultAsync();
@@ -41,7 +39,12 @@ public class RepositoryProduct : IProduct
         await _coreContext.SaveChangesAsync();
     }
     public async Task DeleteProductByIdAsync(int id)
-    {
-        await _coreContext.Product.Where(p => p.ProductId == id).ExecuteDeleteAsync();
-    }
+        => await _coreContext.Product.Where(p => p.ProductId == id).ExecuteDeleteAsync();
+    
+    public async Task<ICollection<Category>> GetAllCategorysAsync()   
+        => await _coreContext.Category.ToListAsync();
+    
+    public async Task CreateCategoryAsync(string name)
+        => await _coreContext.Category.AddAsync(new Category() { Name = name});
+    
 }

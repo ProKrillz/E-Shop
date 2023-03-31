@@ -1,8 +1,6 @@
 ﻿using DataLayer;
 using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
-using ServiceLayer.DTO;
-using System.Diagnostics.Metrics;
 
 namespace ServiceLayer.I_R;
 
@@ -28,11 +26,10 @@ public class RepositoryUser : IUser
     }
     public async Task<User> GetUserByGuidAsync(Guid id)
     {
-        User foundUser = await _coreContext.User.Where(u => u.UserId == id).FirstOrDefaultAsync();
-        if (foundUser != null)
-        {
+        User foundUser = await _coreContext.User.Where(u => u.UserId == id && u.Disable == false).FirstOrDefaultAsync();
+        if (foundUser != null)    
             return foundUser;
-        }
+        
         // Vil lave error logging
         return null;//new Exception();
     }

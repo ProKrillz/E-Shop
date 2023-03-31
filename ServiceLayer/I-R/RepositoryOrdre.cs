@@ -21,12 +21,9 @@ namespace ServiceLayer.I_R
             _coreContext.SaveChanges();
         }
         public async Task DeleteOrdreByIdAsync(int id)
-        {
-            await _coreContext.Ordre.Where(o => o.OrdreId == id).ExecuteDeleteAsync();
-        }
+            => await _coreContext.Ordre.Where(o => o.OrdreId == id).ExecuteDeleteAsync();
+        
         public async Task<Ordre> GetOrdreByIdAsync(int id)
-        {
-            return await _coreContext.Ordre.Where(o => o.OrdreId == id).FirstOrDefaultAsync();
-        }
+            => await _coreContext.Ordre.Where(o => o.OrdreId == id).FirstOrDefaultAsync();
     }
 }

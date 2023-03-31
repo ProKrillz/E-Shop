@@ -1,6 +1,8 @@
 ﻿using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 
+// Make many to many class for catecory and product
+
 namespace DataLayer;
 public class EfCoreContext : DbContext
 {
@@ -18,9 +20,7 @@ public class EfCoreContext : DbContext
     {
         if (!options.IsConfigured)
             options.UseSqlServer(@"Data Source=LAPTOP-HPD38H10\SQLEXPRESS;Database=Eshop;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
-           
     }
- 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region Product Table
@@ -115,7 +115,7 @@ public class EfCoreContext : DbContext
         modelBuilder.Entity<Ordre>()
             .Property(o => o.Created)
             .HasColumnName("ordre_created")
-            .HasDefaultValueSql("GETDATE()");
+            .HasDefaultValueSql("GETDATE()"); // Virker ikke in memory, fordi sqlLite
 
         modelBuilder.Entity<Ordre>()
             .Property(o => o.Updated)

@@ -40,4 +40,6 @@ public interface IProduct
     /// <param name="id"></param>
     /// <returns></returns>
     Task DeleteProductByIdAsync(int id);
+    Task<ICollection<Category>> GetAllCategorysAsync();
+    Task CreateCategoryAsync(string name);
 }

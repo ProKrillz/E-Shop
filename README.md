@@ -7,6 +7,7 @@ This project is for school to learn EF core
 Technologies: 
 * <a href="https://learn.microsoft.com/en-us/dotnet/csharp/" target="_blank">C#</a>
 * <a href="https://www.microsoft.com/en-us/sql-server/sql-server-downloads" target="_blank">SQL</a>
+* <a href="https://materializecss.com/" target="_blank">Materialize</a>
 
 Made by Thomas Damkjær
 

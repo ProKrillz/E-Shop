@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ServiceLayer.I_R;
 
-public class RepositoryUser : IUser
+public class RepositoryUser : RepositroyBase<User>, IUser
 {
     readonly EfCoreContext _coreContext;
-    public RepositoryUser(EfCoreContext context)
+    public RepositoryUser(EfCoreContext context) : base(context)
         => _coreContext = context;
 
     public async Task CreateUserAsync(string firstname, string lastname, 

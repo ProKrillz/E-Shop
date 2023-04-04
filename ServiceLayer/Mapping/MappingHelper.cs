@@ -15,7 +15,7 @@ public static class MappingHelper
             Price = p.Price,
             ImagePath = p.Image.Path,
             Brand = p.Brand.Name,
-            Categorys = p.Categorys      
+            Category = p.Category     
         });     
     }
     public static ProductDTO MappingProductToProductDTO(this Product p)
@@ -28,7 +28,7 @@ public static class MappingHelper
             Price = p.Price,
             ImagePath = p.Image.Path,
             Brand = p.Brand.Name,
-            Categorys = p.Categorys
+            Category = p.Category
         };
     }
 }

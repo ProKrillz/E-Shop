@@ -1,8 +1,6 @@
 ﻿using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 
-// Make many to many class for catecory and product
-
 namespace DataLayer;
 public class EfCoreContext : DbContext
 {
@@ -16,11 +14,14 @@ public class EfCoreContext : DbContext
     public DbSet<ZipCode> ZipCode { get; set; }
     public DbSet<Set> Set { get; set; }
 
+    public EfCoreContext()
+    {
+        
+    }
     public EfCoreContext(DbContextOptions builder) : base(builder) { }
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        if (!options.IsConfigured)
-            options.UseSqlServer(@"Data Source=LAPTOP-HPD38H10\SQLEXPRESS;Database=Eshop;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+        
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -305,14 +306,14 @@ public class EfCoreContext : DbContext
     }
     private void SeedBrand(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Brand>().HasData(new Brand { Name = "Konami"});
+        modelBuilder.Entity<Brand>().HasData(new Brand { BrandId = 1, Name = "Konami"});
     }
     private void SeedCategory(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Category>().HasData(
-            new Category { Name = "Single"},
-            new Category { Name = "Booster"},
-            new Category { Name = "Display"}
+            new Category { CategoryId = 1, Name = "Single"},
+            new Category { CategoryId = 2, Name = "Booster"},
+            new Category { CategoryId = 3, Name = "Display"}
             );
     }
 }

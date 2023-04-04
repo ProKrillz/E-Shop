@@ -3,7 +3,7 @@ using ServiceLayer.DTO;
 
 namespace ServiceLayer.I_R;
 
-public interface IProduct
+public interface IProduct : IBase<Product>
 {
     /// <summary>
     /// Get all products as DTO

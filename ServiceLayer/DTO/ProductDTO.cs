@@ -10,5 +10,5 @@ public class ProductDTO
     public decimal Price { get; set; }
     public string? Brand { get; set; }
     public string? ImagePath { get; set; }
-    public List<Category>? Categorys { get; set; }
+    public Category? Category { get; set; }
 }

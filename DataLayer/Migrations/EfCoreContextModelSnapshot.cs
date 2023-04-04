@@ -22,21 +22,6 @@ namespace DataLayer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.Property<int>("CategorysCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategorysCategoryId", "ProductsProductId");
-
-                    b.HasIndex("ProductsProductId");
-
-                    b.ToTable("ProductCategory", (string)null);
-                });
-
             modelBuilder.Entity("DataLayer.Entities.Brand", b =>
                 {
                     b.Property<int>("BrandId")
@@ -54,6 +39,13 @@ namespace DataLayer.Migrations
                         .HasName("brand_id");
 
                     b.ToTable("Brands", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            BrandId = 1,
+                            Name = "Konami"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Category", b =>
@@ -73,6 +65,23 @@ namespace DataLayer.Migrations
                         .HasName("category_id");
 
                     b.ToTable("Categorys", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            Name = "Single"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            Name = "Booster"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            Name = "Display"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Delivery", b =>
@@ -209,6 +218,16 @@ namespace DataLayer.Migrations
                     b.Property<int>("Fk_BrandId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Fk_CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Fk_ImageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Fk_SetId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(4)");
+
                     b.Property<string>("Name")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
@@ -223,9 +242,42 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("Fk_BrandId");
 
+                    b.HasIndex("Fk_CategoryId");
+
+                    b.HasIndex("Fk_SetId");
+
                     b.HasIndex("Name");
 
                     b.ToTable("Products", (string)null);
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.Set", b =>
+                {
+                    b.Property<string>("SetId")
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)")
+                        .HasColumnName("set_id");
+
+                    b.Property<string>("SetName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("set_name");
+
+                    b.Property<DateTime>("SetRealse")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("set_realse");
+
+                    b.HasKey("SetId");
+
+                    b.ToTable("Sets", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            SetId = "LOB",
+                            SetName = "Legends of blue-eyes white dragon",
+                            SetRealse = new DateTime(2002, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.User", b =>
@@ -290,21 +342,6 @@ namespace DataLayer.Migrations
                     b.HasKey("ZipCodeId");
 
                     b.ToTable("ZipCodes", (string)null);
-                });
-
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategorysCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.Entities.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Image", b =>
@@ -372,7 +409,23 @@ namespace DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DataLayer.Entities.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("Fk_CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.Entities.Set", "Set")
+                        .WithMany("Product")
+                        .HasForeignKey("Fk_SetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Brand");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Set");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.User", b =>
@@ -387,6 +440,11 @@ namespace DataLayer.Migrations
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Brand", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.Category", b =>
                 {
                     b.Navigation("Products");
                 });
@@ -411,6 +469,11 @@ namespace DataLayer.Migrations
                     b.Navigation("Image");
 
                     b.Navigation("Ordres");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.Set", b =>
+                {
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.User", b =>

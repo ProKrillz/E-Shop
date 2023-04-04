@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ServiceLayer.I_R
 {
-    public class RepositoryOrdre : IOrdre
+    public class RepositoryOrdre : RepositroyBase<Ordre>, IOrdre
     {
         readonly EfCoreContext _coreContext;
-        public RepositoryOrdre(EfCoreContext context)
+        public RepositoryOrdre(EfCoreContext context) : base(context)
             => _coreContext = context;
 
         public async Task CreateOrdreAsync(Ordre ordre)

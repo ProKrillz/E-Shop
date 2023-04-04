@@ -2,7 +2,7 @@
 
 namespace ServiceLayer.I_R
 {
-    public interface IOrdre
+    public interface IOrdre : IBase<Ordre>
     {
         /// <summary>
         /// Create ordre (dosent work)

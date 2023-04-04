@@ -7,10 +7,10 @@ using System.Collections.Generic;
 
 namespace ServiceLayer.I_R;
 
-public class RepositoryProduct : IProduct
+public class RepositoryProduct : RepositroyBase<Product>, IProduct
 {
     readonly EfCoreContext _coreContext;
-    public RepositoryProduct(EfCoreContext context)
+    public RepositoryProduct(EfCoreContext context) : base(context)
         => _coreContext = context;
 
     public async Task<List<ProductDTO>> GetAllProductAsync() 

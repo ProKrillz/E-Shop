@@ -7,5 +7,5 @@ public class Delivery
     public int DeliveryId { get; set; }
     public string? DeliveryOption { get; set; }
 
-    public List<Ordre> Ordres { get; set; }
+    public List<Ordre>? Ordres { get; set; }
 }

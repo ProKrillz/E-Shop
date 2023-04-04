@@ -2,7 +2,7 @@
 
 namespace ServiceLayer.I_R;
 
-public interface IUser
+public interface IUser : IBase<User>
 {
     /// <summary>
     /// Create User

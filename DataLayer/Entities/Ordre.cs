@@ -7,7 +7,7 @@ namespace DataLayer.Entities;
 public class Ordre
 {
     public int OrdreId { get; set; }
-    public DateTime Created { get; set; } = DateTime.Now;
+    public DateTime Created { get; set; }
     public DateTime Updated { get; set; }
 
     public ICollection<OrdreProduct>? Products { get; set; }

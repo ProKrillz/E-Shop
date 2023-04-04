@@ -1,6 +1,8 @@
-using Microsoft.EntityFrameworkCore;
 using ServiceLayer.DTO;
 using ServiceLayer.I_R;
+
+// Kan ikke teste de functioner som ligger på databasen 
+// fordi in memory bruger sqlLite
 
 namespace TestEshop
 {
@@ -63,7 +65,7 @@ namespace TestEshop
                 new OrdreProduct(){
                 Amount = 5,
                 Fk_ProductId = 2      
-                } };
+                }};
             Ordre newOrdre = new Ordre()
             {
                 OrdreId = 2,

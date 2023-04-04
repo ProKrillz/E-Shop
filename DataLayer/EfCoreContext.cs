@@ -223,12 +223,7 @@ public class EfCoreContext : DbContext
         modelBuilder.Entity<Product>()
             .HasMany(p => p.Categorys)
             .WithMany(c => c.Products)
-            .UsingEntity(j => j.ToTable("ProductCategory"));
-
-        //modelBuilder.Entity<Product>()
-        //    .HasMany(p => p.Ordres)
-        //    .WithMany(o => o.Products)
-        //    .UsingEntity(j => j.ToTable("ProductOrdre"));
+            .UsingEntity(j => j.ToTable("ProductCategory")); // remove later
 
         modelBuilder.Entity<Ordre>()
             .HasOne(o => o.Payment)

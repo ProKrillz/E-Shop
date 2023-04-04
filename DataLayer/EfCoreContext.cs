@@ -14,6 +14,7 @@ public class EfCoreContext : DbContext
     public DbSet<Delivery> Delivery { get; set; }
     public DbSet<User> User { get; set; }
     public DbSet<ZipCode> ZipCode { get; set; }
+    public DbSet<Set> Set { get; set; }
 
     public EfCoreContext(DbContextOptions builder) : base(builder) { }
     protected override void OnConfiguring(DbContextOptionsBuilder options)
@@ -83,6 +84,27 @@ public class EfCoreContext : DbContext
             .Property(c => c.Name)
             .HasColumnName("category_name")
             .HasMaxLength(25);
+
+        #endregion
+
+        #region Set Table
+
+        modelBuilder.Entity<Set>()
+            .ToTable("Sets");
+
+        modelBuilder.Entity<Set>()
+            .Property(s => s.SetId)
+            .HasColumnName("set_id")
+            .HasMaxLength(4);
+
+        modelBuilder.Entity<Set>()
+            .Property(s => s.SetName)
+            .HasColumnName("set_name")
+            .HasMaxLength(50);
+
+        modelBuilder.Entity<Set>()
+            .Property(s => s.SetRealse)
+            .HasColumnName("set_realse");
 
         #endregion
 
@@ -221,9 +243,9 @@ public class EfCoreContext : DbContext
             .HasForeignKey<Image>(i => i.Fk_ProductId);
 
         modelBuilder.Entity<Product>()
-            .HasMany(p => p.Categorys)
+            .HasOne(p => p.Category)
             .WithMany(c => c.Products)
-            .UsingEntity(j => j.ToTable("ProductCategory")); // remove later
+            .HasForeignKey(p => p.Fk_CategoryId);
 
         modelBuilder.Entity<Ordre>()
             .HasOne(o => o.Payment)
@@ -266,6 +288,31 @@ public class EfCoreContext : DbContext
             .WithMany(o => o.Ordres)
             .HasForeignKey(op => op.Fk_ProductId);
 
+        modelBuilder.Entity<Product>()
+            .HasOne(p => p.Set)
+            .WithMany(s => s.Product)
+            .HasForeignKey(p => p.Fk_SetId);
+
         #endregion
+
+        SeedSet(modelBuilder);
+        SeedBrand(modelBuilder);
+        SeedCategory(modelBuilder);
+    }
+    private void SeedSet(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Set>().HasData( new Set { SetId = "LOB", SetName = "Legends of blue-eyes white dragon", SetRealse = DateTime.Parse("03-01-2002") });
+    }
+    private void SeedBrand(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Brand>().HasData(new Brand { Name = "Konami"});
+    }
+    private void SeedCategory(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Category>().HasData(
+            new Category { Name = "Single"},
+            new Category { Name = "Booster"},
+            new Category { Name = "Display"}
+            );
     }
 }

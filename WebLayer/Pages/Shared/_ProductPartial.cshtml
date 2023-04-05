@@ -1,0 +1,21 @@
+﻿@model Product
+@{
+}
+<div class="card sticky-action col s3">
+    <div class="card-image waves-effect waves-block waves-light">
+        <img class="activator" src="~/Image/Card/dpe.jpg">
+    </div>
+    <div class="card-content">
+        <span class=" activator grey-text text-darken-4">@Model.Name<i class="material-icons right">more_vert</i></span>
+        <p class="red-text">@Model.Price Kr.</p>
+    </div>
+    <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">@Model.Name<i class="material-icons right">close</i></span>
+        <p>@Model.Description</p>
+        <p>Set: @Model.Fk_SetId</p>
+        <p>@Model.Fk_CategoryId</p>
+    </div>
+    <div class="card-action">
+        <a class="waves-effect btn black white-text">I kurv</a>
+    </div>
+</div>

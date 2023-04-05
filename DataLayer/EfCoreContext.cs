@@ -299,10 +299,12 @@ public class EfCoreContext : DbContext
         SeedSet(modelBuilder);
         SeedBrand(modelBuilder);
         SeedCategory(modelBuilder);
+        SeedProduct(modelBuilder);
     }
     private void SeedSet(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Set>().HasData( new Set { SetId = "LOB", SetName = "Legends of blue-eyes white dragon", SetRealse = DateTime.Parse("03-01-2002") });
+        modelBuilder.Entity<Set>().HasData( new Entities.Set { SetId = "POTE", SetName = "Power of the Elements", SetRealse = DateTime.Parse("04-08-2022") });
     }
     private void SeedBrand(ModelBuilder modelBuilder)
     {
@@ -315,5 +317,9 @@ public class EfCoreContext : DbContext
             new Category { CategoryId = 2, Name = "Booster"},
             new Category { CategoryId = 3, Name = "Display"}
             );
+    }
+    private void SeedProduct(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 100, Name = "Destiny HERO - Destroyer Phoenix Enforcer", Description = "Starligth rare", Price = 1700.00M, Fk_BrandId = 1, Fk_SetId = "POTE", Fk_CategoryId = 1 });
     }
 }

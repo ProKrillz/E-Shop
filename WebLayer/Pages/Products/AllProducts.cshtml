@@ -1,0 +1,13 @@
+﻿@page
+@model WebLayer.Pages.Products.AllProductsModel
+@{
+    ViewData["Title"] = "Products";
+}
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model.Products)
+        {
+            <partial name="_ProductPartial" model="item"/>
+        }
+    </div>
+</div>

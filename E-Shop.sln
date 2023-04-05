@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceLayer", "ServiceLaye
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEshop", "TestEshop\TestEshop.csproj", "{A783F32F-B855-4C64-998C-79532EF6FEE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebLayer", "WebLayer\WebLayer.csproj", "{B5967BA3-C0D2-40D8-9BD9-5006A86B3746}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLayer", "WebLayer\WebLayer.csproj", "{B5967BA3-C0D2-40D8-9BD9-5006A86B3746}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,3 @@
-
-
 using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer.I_R;
@@ -10,11 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 var config = builder.Configuration;
-builder.Services.AddDbContext<EfCoreContext>(o => o.UseSqlServer(config.GetConnectionString("SqlConnectionString")));
+builder.Services.AddDbContext<EfCoreContext>(o => o.UseSqlServer(config.GetConnectionString("Home")));
 
 builder.Services.AddScoped<IUser, RepositoryUser>();
 builder.Services.AddScoped<IProduct, RepositoryProduct>();
 builder.Services.AddScoped<IOrdre, RepositoryOrdre>();
+builder.Services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(30); });
 
 var app = builder.Build();
 
@@ -29,11 +28,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
-
+app.UseSession();
 app.MapRazorPages();
 
 app.Run();

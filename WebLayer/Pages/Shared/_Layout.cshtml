@@ -9,15 +9,21 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="~/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
     <link href="~/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+
 </head>
 <body>
     <header>
         <nav class="purple darken-2"  role="navigation">
             <div class="nav-wrapper container ">
-                <a id="logo-container" href="#" class="brand-logo left white-text">Krillz Cardz</a>
+                <a id="logo-container" asp-page="/Index" class="brand-logo left white-text">Krillz Cardz</a>
+                
+                <ul class="right">
+                    <a class="white-text" asp-page="/Users/Login">Login</a>
+                </ul>
 
                 <ul class="right">
-                    <a class="waves-effect btn black white-text"><i class="material-icons left">shopping_cart</i>Indkøbskurv</a>
+                    <a class="waves-effect btn black white-text" asp-page="/Products/Cart"><i class="material-icons left">shopping_cart</i>Indkøbskurv</a>
                 </ul>
             </div>
         </nav>

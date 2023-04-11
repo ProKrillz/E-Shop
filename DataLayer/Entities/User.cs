@@ -12,6 +12,7 @@ public class User
     public string? Password { get; set; }
     public string? Address { get; set; }
     public bool Disable { get; set; }
+    public bool Admin { get; set; }
 
     public int Fk_ZipCodeId { get; set; }
     public ZipCode? ZipCode { get; set; }

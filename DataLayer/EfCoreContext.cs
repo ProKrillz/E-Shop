@@ -54,6 +54,10 @@ public class EfCoreContext : DbContext
             .HasColumnName("product_price")
             .HasPrecision(6, 2);
 
+        modelBuilder.Entity<Product>()
+            .Property(p => p.ReleaseDate)
+            .HasColumnName("product_release");
+
         #endregion
 
         #region Brand Table
@@ -203,7 +207,8 @@ public class EfCoreContext : DbContext
         modelBuilder.Entity<User>()
             .Property(u => u.Email)
             .HasColumnName("user_email")
-            .HasMaxLength(50);
+            .HasMaxLength(50)
+            .HasComputedColumnSql("LOWER(user_email)");
 
         modelBuilder.Entity<User>()
             .Property(u => u.Password)
@@ -212,6 +217,10 @@ public class EfCoreContext : DbContext
         modelBuilder.Entity<User>()
             .Property(u => u.Disable)
             .HasColumnName("user_disable");
+
+        modelBuilder.Entity<User>()
+            .Property(u => u.Admin)
+            .HasColumnName("user_admin");
 
         #endregion
 
@@ -300,6 +309,8 @@ public class EfCoreContext : DbContext
         SeedBrand(modelBuilder);
         SeedCategory(modelBuilder);
         SeedProduct(modelBuilder);
+        SeedImage(modelBuilder);
+        SeedAdmin(modelBuilder);
     }
     private void SeedSet(ModelBuilder modelBuilder)
     {
@@ -318,8 +329,24 @@ public class EfCoreContext : DbContext
             new Category { CategoryId = 3, Name = "Display"}
             );
     }
+    private void SeedImage(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Image>().HasData(
+            new Image { ImageId = 1, Path = "/Image/Card/dpe.jpg", Fk_ProductId = 100 }
+            ) ;
+    }
     private void SeedProduct(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Product>().HasData(new Product { ProductId = 100, Name = "Destiny HERO - Destroyer Phoenix Enforcer", Description = "Starligth rare", Price = 1700.00M, Fk_BrandId = 1, Fk_SetId = "POTE", Fk_CategoryId = 1 });
+    }
+    private void SeedAdmin(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>().HasData(new User {
+            UserId = Guid.Parse("0a916c32-36a6-42e0-9b05-b46d7e643d56"),
+            FirstName = "Thomas",
+            Lastname = "Damkjær",
+            Password = "linkin",
+            Admin = true,
+            Email = "admin@admin.dk"}) ;
     }
 }

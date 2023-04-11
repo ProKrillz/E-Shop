@@ -13,6 +13,8 @@ namespace WebLayer.Pages.Users
 
         [BindProperty]
         public User User { get; set; }
+        [BindProperty]
+        public string? PasswordCompared { get; set; }
         public void OnGet()
         {
 
@@ -23,6 +25,7 @@ namespace WebLayer.Pages.Users
         }
         public IActionResult OnPostCreate()
         {
+            User newuser = User;
             return Page();
         }
     }

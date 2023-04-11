@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 var config = builder.Configuration;
-builder.Services.AddDbContext<EfCoreContext>(o => o.UseSqlServer(config.GetConnectionString("Home")));
+builder.Services.AddDbContext<EfCoreContext>(o => o.UseSqlServer(config.GetConnectionString("SqlConnectionString")));
 
 builder.Services.AddScoped<IUser, RepositoryUser>();
 builder.Services.AddScoped<IProduct, RepositoryProduct>();

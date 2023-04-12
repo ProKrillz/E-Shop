@@ -1,6 +1,7 @@
 ﻿using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ServiceLayer.DTO;
 using ServiceLayer.I_R;
 
@@ -20,7 +21,7 @@ namespace WebLayer.Pages
         public IQueryable<Product> Products { get; set; }
         public void OnGet()
         {
-            Products = _productService.FindAll().Take(5);
+            Products = _productService.FindAll().Include(p => p.Image).Take(5);
         }
     }
 }

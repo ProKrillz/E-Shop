@@ -54,10 +54,6 @@ public class EfCoreContext : DbContext
             .HasColumnName("product_price")
             .HasPrecision(6, 2);
 
-        modelBuilder.Entity<Product>()
-            .Property(p => p.ReleaseDate)
-            .HasColumnName("product_release");
-
         #endregion
 
         #region Brand Table
@@ -208,11 +204,13 @@ public class EfCoreContext : DbContext
             .Property(u => u.Email)
             .HasColumnName("user_email")
             .HasMaxLength(50)
-            .HasComputedColumnSql("LOWER(user_email)");
+            .IsRequired()
+            .HasConversion(u => u.ToLower(), u => u.ToLower());
 
         modelBuilder.Entity<User>()
             .Property(u => u.Password)
-            .HasColumnName("user_password");
+            .HasColumnName("user_password")
+            .IsRequired();
 
         modelBuilder.Entity<User>()
             .Property(u => u.Disable)
@@ -250,7 +248,7 @@ public class EfCoreContext : DbContext
         modelBuilder.Entity<Product>()
             .HasOne(p => p.Image)
             .WithOne(i => i.Product)
-            .HasForeignKey<Image>(i => i.Fk_ProductId);
+            .HasForeignKey<Product>(p => p.Fk_ImageId);
 
         modelBuilder.Entity<Product>()
             .HasOne(p => p.Category)
@@ -308,8 +306,9 @@ public class EfCoreContext : DbContext
         SeedSet(modelBuilder);
         SeedBrand(modelBuilder);
         SeedCategory(modelBuilder);
-        SeedProduct(modelBuilder);
         SeedImage(modelBuilder);
+        SeedProduct(modelBuilder);
+        SeedZip(modelBuilder);
         SeedAdmin(modelBuilder);
     }
     private void SeedSet(ModelBuilder modelBuilder)
@@ -332,12 +331,16 @@ public class EfCoreContext : DbContext
     private void SeedImage(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Image>().HasData(
-            new Image { ImageId = 1, Path = "/Image/Card/dpe.jpg", Fk_ProductId = 100 }
+            new Image { ImageId = 1, Path = "/Image/Card/dpe.jpg" }
             ) ;
     }
     private void SeedProduct(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 100, Name = "Destiny HERO - Destroyer Phoenix Enforcer", Description = "Starligth rare", Price = 1700.00M, Fk_BrandId = 1, Fk_SetId = "POTE", Fk_CategoryId = 1 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 100, Name = "Destiny HERO - Destroyer Phoenix Enforcer", Description = "Starligth rare", Price = 1700.00M, Fk_BrandId = 1, Fk_SetId = "POTE", Fk_CategoryId = 1, Fk_ImageId = 1 });
+    }
+    private void SeedZip(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<ZipCode>().HasData(new ZipCode { ZipCodeId = 6400, City = "Sønderborg"});
     }
     private void SeedAdmin(ModelBuilder modelBuilder)
     {
@@ -347,6 +350,9 @@ public class EfCoreContext : DbContext
             Lastname = "Damkjær",
             Password = "linkin",
             Admin = true,
-            Email = "admin@admin.dk"}) ;
+            Email = "admin@admin.dk",
+            Address = "Alsgade 42A",
+            Fk_ZipCodeId = 6400,
+            Disable = false }) ;
     }
 }

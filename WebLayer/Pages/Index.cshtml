@@ -8,7 +8,7 @@
 </div>
 
 <div class="container">
-    <br/>
+    <br />
     <div class="row grey">
         <div class="col s1">
             <i class="material-icons left medium">local_shipping</i>
@@ -83,21 +83,21 @@
         <div class="row">
             <div class="col s12 center">
                 <h3><i class="mdi-content-send brown-text"></i></h3>
-                <a asp-page="/Products/AllProducts" >
+                <a asp-page="/Products/AllProducts">
                     <h4>Produkter</h4>
-                </a> 
-
-
+                </a>
                 <div class="row">
-                    @foreach (var item in Model.Products)
-                    {
-                        <partial name="_ProductPartial" model="item" />
-                    }
+                    <div class="carousel">
+                        @foreach (var item in Model.Products)
+                        {
+                            <a class="carousel-item" href="#one!">
+                                <partial name="_ProductPartial" model="item" />
+                            </a>
+                        }
+                    </div>
                 </div>
-
             </div>
         </div>
-
     </div>
 </div>
 
@@ -113,4 +113,10 @@
     <div class="parallax"><img src="~/image/banner/banner3.jpg" alt="Unsplashed background img 3"></div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        $('.carousel').carousel();
+    });
+</script>

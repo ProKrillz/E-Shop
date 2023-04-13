@@ -1,6 +1,7 @@
 ﻿using DataLayer;
 using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 namespace ServiceLayer.I_R;
 
@@ -10,6 +11,11 @@ public class RepositoryUser : RepositroyBase<User>, IUser
     public RepositoryUser(EfCoreContext context) : base(context)
         => _coreContext = context;
 
+    public User Login(string email, string password)
+    {
+        return _coreContext.User.Where(e => e.Email == email && e.Password == password).FirstOrDefault();
+    }
+    
     public async Task CreateUserAsync(string firstname, string lastname, 
         string email, string password, string address, int zipcode)
     {

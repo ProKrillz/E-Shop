@@ -21,11 +21,26 @@ namespace WebLayer.Pages.Users
         }
         public IActionResult OnPostLogin()
         {
+            User FoundUser = _userService.Login(User.Email, User.Password);
+            if (FoundUser != null)
+            {
+                HttpContext.Session.SetString("userId", FoundUser.UserId.ToString());
+                if (FoundUser.Admin)
+                {
+                    HttpContext.Session.SetString("userAdmin", FoundUser.Admin.ToString());
+                    return RedirectToPage("/Users/Admin");
+                }
+                return RedirectToPage("/Users/UserSite");
+            }
             return Page();
         }
         public IActionResult OnPostCreate()
         {
-            User newuser = User;
+            if (User.Password == PasswordCompared)
+            {
+                _userService.AddItemAsync(User);
+                _userService.CommitAsync();
+            }
             return Page();
         }
     }

@@ -4,6 +4,7 @@ namespace ServiceLayer.I_R;
 
 public interface IUser : IBase<User>
 {
+    User Login(string email, string password);
     /// <summary>
     /// Create User
     /// </summary>

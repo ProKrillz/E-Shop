@@ -1,4 +1,107 @@
 ﻿@page
 @model WebLayer.Pages.Users.AdminModel
 @{
+
 }
+<div class="container">
+    <br />
+    <a class="waves-effect waves-light btn view" onclick="$('#modal1').modal('open');">Opret Product</a>
+    <br />
+    <table class="striped highlight">
+        <thead>
+            <tr>
+                <th>Titel</th>
+                <th>Beskrivelse</th>
+                <th>Pris</th>
+                <th>Brand</th>
+                <th>Kategori</th>
+                <th>Set</th>
+                <th>Rediger</th>
+                <th>Slet</th>
+            </tr>
+        </thead>
+        <tbody>
+           @foreach (var item in Model.Products)
+            {
+                <tr>
+                    <th>@item.Name</th>
+                    <th>@item.Description</th>
+                    <th>@item.Price</th>
+                    <th>@item.Brand.Name</th>
+                    <th>@item.Category.Name</th>
+                    <th>@item.Fk_SetId</th>
+                    <th>
+                        <button class="btn waves-effect waves-light yellow darken-1" type="submit" name="action">
+                            <i class="material-icons">edit</i>
+                        </button>
+                    </th>
+                    <th>
+                        <button class="btn waves-effect waves-light red darken-1" type="submit" name="action">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <h4 class="col">Opret product</h4>
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat right col">Luk</a>
+            </div>
+            <form class="col s12" method="post">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">title</i>
+                        <input id="icon_prefix" type="text" class="validate" asp-for="Product.Name">
+                        <label for="icon_prefix">Title</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">description</i>
+                        <input id="icon_lastname" type="text" class="validate" asp-for="Product.Description">
+                        <label for="icon_lastname">Beskrivelse</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">attach_money</i>
+                        <input id="icon_add" type="number" class="validate" asp-for="Product.Price">
+                        <label for="icon_add">Pris</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix"></i>
+                        <input id="icon_zip" type="number" class="validate" asp-for="Product.Category.CategoryId">
+                        <label for="icon_zip">Kategori</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">branding_watermark</i>
+                        <input id="icon_add" type="number" class="validate" asp-for="Product.Brand">
+                        <label for="icon_add">Brand</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix"></i>
+                        <input id="icon_zip" type="number" class="validate" asp-for="Product.Image">
+                        <label for="icon_zip">Billed</label>
+                    </div>
+                </div>
+                <button class="btn waves-effect waves-light" type="submit" name="action" asp-page-handler="Create">
+                    Opret
+                    <i class="material-icons right">send</i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#modal1').modal();
+    });
+</script>

@@ -1,27 +1,18 @@
 ﻿using DataLayer.Entities;
-using ServiceLayer.DTO;
 
 namespace ServiceLayer.I_R;
 
 public interface IProduct : IBase<Product>
 {
-    /// <summary>
-    /// Get all products as DTO
-    /// </summary>
-    /// <returns></returns>
-    Task<List<ProductDTO>> GetAllProductAsync();
-    /// <summary>
-    /// Get Products with contains text
-    /// </summary>
-    /// <param name="text"></param>
-    /// <returns></returns>
-    Task<List<ProductDTO>> SearchProductByProductTextAsync(string text);
+    Task<List<Category>> GetAllCategories();
+    Task<List<Brand>> GetAllBrandsAsync();
+    Task<List<Set>> GetAllSetsAsync();
     /// <summary>
     /// Get product by productId as DTO
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<ProductDTO> GetProductByIdAsync(int id);
+    Task<Product> GetProductByIdAsync(int id);
     /// <summary>
     /// Create Product
     /// </summary>
@@ -40,6 +31,5 @@ public interface IProduct : IBase<Product>
     /// <param name="id"></param>
     /// <returns></returns>
     Task DeleteProductByIdAsync(int id);
-    Task<ICollection<Category>> GetAllCategorysAsync();
     Task CreateCategoryAsync(string name);
 }

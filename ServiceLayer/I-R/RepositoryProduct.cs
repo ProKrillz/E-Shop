@@ -13,18 +13,24 @@ public class RepositoryProduct : RepositroyBase<Product>, IProduct
     public RepositoryProduct(EfCoreContext context) : base(context)
         => _coreContext = context;
 
-    public async Task<List<ProductDTO>> GetAllProductAsync() 
-        => await _coreContext.Product.MappingProductToProductDTO().ToListAsync();
-    
-    public async Task<List<ProductDTO>> SearchProductByProductTextAsync(string text)
-        => await _coreContext.Product.Where(p => EF.Functions.Like(p.Name, text)).MappingProductToProductDTO().ToListAsync();
-    
-    public async Task<ProductDTO> GetProductByIdAsync(int id)
+    public async Task<List<Category>> GetAllCategories()
     {
-        Product FoundProduct = await _coreContext.Product.Where(p => p.ProductId == id).FirstOrDefaultAsync();
+        return await _coreContext.Category.ToListAsync();
+    }
+    public async Task<List<Brand>> GetAllBrandsAsync()
+    {
+        return await _coreContext.Brand.ToListAsync();
+    }
+    public async Task<List<Set>> GetAllSetsAsync()
+    {
+        return await _coreContext.Set.ToListAsync();
+    }
+    public async Task<Product> GetProductByIdAsync(int id)
+    {
+        Product FoundProduct = await _coreContext.Product.Where(p => p.ProductId == id).Include(p => p.Image).FirstOrDefaultAsync();
         if (FoundProduct != null)
         {
-            return FoundProduct.MappingProductToProductDTO();
+            return FoundProduct;
         }
         return null; // error throw    
     }
@@ -41,10 +47,6 @@ public class RepositoryProduct : RepositroyBase<Product>, IProduct
     public async Task DeleteProductByIdAsync(int id)
         => await _coreContext.Product.Where(p => p.ProductId == id).ExecuteDeleteAsync();
     
-    public async Task<ICollection<Category>> GetAllCategorysAsync()   
-        => await _coreContext.Category.ToListAsync();
-    
     public async Task CreateCategoryAsync(string name)
         => await _coreContext.Category.AddAsync(new Category() { Name = name});
-    
 }

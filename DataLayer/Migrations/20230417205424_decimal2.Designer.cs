@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EfCoreContext))]
-    [Migration("20230405071134_dpe")]
-    partial class dpe
+    [Migration("20230417205424_decimal2")]
+    partial class decimal2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,9 +113,6 @@ namespace DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
 
-                    b.Property<int>("Fk_ProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Path")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("image_path");
@@ -123,10 +120,14 @@ namespace DataLayer.Migrations
                     b.HasKey("ImageId")
                         .HasName("image_id");
 
-                    b.HasIndex("Fk_ProductId")
-                        .IsUnique();
-
                     b.ToTable("Images", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ImageId = 1,
+                            Path = "/Image/Card/dpe.jpg"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Ordre", b =>
@@ -210,8 +211,9 @@ namespace DataLayer.Migrations
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasDefaultValue(100)
                         .HasColumnName("product_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
                     b.Property<string>("Description")
                         .HasMaxLength(200)
@@ -237,8 +239,8 @@ namespace DataLayer.Migrations
                         .HasColumnName("product_name");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(6, 2)
-                        .HasColumnType("decimal(6,2)")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)")
                         .HasColumnName("product_price");
 
                     b.HasKey("ProductId");
@@ -246,6 +248,9 @@ namespace DataLayer.Migrations
                     b.HasIndex("Fk_BrandId");
 
                     b.HasIndex("Fk_CategoryId");
+
+                    b.HasIndex("Fk_ImageId")
+                        .IsUnique();
 
                     b.HasIndex("Fk_SetId");
 
@@ -260,7 +265,7 @@ namespace DataLayer.Migrations
                             Description = "Starligth rare",
                             Fk_BrandId = 1,
                             Fk_CategoryId = 1,
-                            Fk_ImageId = 0,
+                            Fk_ImageId = 1,
                             Fk_SetId = "POTE",
                             Name = "Destiny HERO - Destroyer Phoenix Enforcer",
                             Price = 1700.00m
@@ -313,11 +318,16 @@ namespace DataLayer.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("user_address");
 
+                    b.Property<bool>("Admin")
+                        .HasColumnType("bit")
+                        .HasColumnName("user_admin");
+
                     b.Property<bool>("Disable")
                         .HasColumnType("bit")
                         .HasColumnName("user_disable");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("user_email");
@@ -336,6 +346,7 @@ namespace DataLayer.Migrations
                         .HasColumnName("user_lastname");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("user_password");
 
@@ -345,6 +356,20 @@ namespace DataLayer.Migrations
                     b.HasIndex("Fk_ZipCodeId");
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("0a916c32-36a6-42e0-9b05-b46d7e643d56"),
+                            Address = "Alsgade 42A",
+                            Admin = true,
+                            Disable = false,
+                            Email = "admin@admin.dk",
+                            FirstName = "Thomas",
+                            Fk_ZipCodeId = 6400,
+                            Lastname = "Damkjær",
+                            Password = "linkin"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.ZipCode", b =>
@@ -364,17 +389,13 @@ namespace DataLayer.Migrations
                     b.HasKey("ZipCodeId");
 
                     b.ToTable("ZipCodes", (string)null);
-                });
 
-            modelBuilder.Entity("DataLayer.Entities.Image", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Product", "Product")
-                        .WithOne("Image")
-                        .HasForeignKey("DataLayer.Entities.Image", "Fk_ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
+                    b.HasData(
+                        new
+                        {
+                            ZipCodeId = 6400,
+                            City = "Sønderborg"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Ordre", b =>
@@ -437,6 +458,12 @@ namespace DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DataLayer.Entities.Image", "Image")
+                        .WithOne("Product")
+                        .HasForeignKey("DataLayer.Entities.Product", "Fk_ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DataLayer.Entities.Set", "Set")
                         .WithMany("Product")
                         .HasForeignKey("Fk_SetId")
@@ -446,6 +473,8 @@ namespace DataLayer.Migrations
                     b.Navigation("Brand");
 
                     b.Navigation("Category");
+
+                    b.Navigation("Image");
 
                     b.Navigation("Set");
                 });
@@ -476,6 +505,11 @@ namespace DataLayer.Migrations
                     b.Navigation("Ordres");
                 });
 
+            modelBuilder.Entity("DataLayer.Entities.Image", b =>
+                {
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("DataLayer.Entities.Ordre", b =>
                 {
                     b.Navigation("Products");
@@ -488,8 +522,6 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Entities.Product", b =>
                 {
-                    b.Navigation("Image");
-
                     b.Navigation("Ordres");
                 });
 

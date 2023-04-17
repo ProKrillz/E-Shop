@@ -10,24 +10,24 @@
 <div class="container">
     <br />
     <div class="row grey">
-        <div class="col s1">
+        <div class="col l1">
             <i class="material-icons left medium">local_shipping</i>
         </div>
-        <div class="col s3">
+        <div class="col l3">
             <h5 class="center">Levering 1-2 dage</h5>
             <p class="center">Ordrer er oftest fremme næste hverdag.</p>
         </div>
-        <div class="col s1">
+        <div class="col l1">
             <i class="material-icons left medium">credit_card</i>
         </div>
-        <div class="col s3">
+        <div class="col l3">
             <h5 class="center">Sikker Betaling</h5>
             <p class="center">Vi trækker først pengene, når din ordre sendes.</p>
         </div>
-        <div class="col s1">
+        <div class="col l1">
             <i class="material-icons left medium">chat_bubble_outline</i>
         </div>
-        <div class="col s3">
+        <div class="col l3">
             <h5 class="center">Hurtig kundeservice</h5>
             <p class="center">Har du spørgsmål, skriv til os. Vi svarer lynhurtigt.</p>
         </div>
@@ -86,16 +86,7 @@
                 <a asp-page="/Products/AllProducts">
                     <h4>Produkter</h4>
                 </a>
-                <div class="row">
-                    <div class="carousel">
-                        @foreach (var item in Model.Products)
-                        {
-                            <a class="carousel-item" href="#one!">
-                                <partial name="_ProductPartial" model="item" />
-                            </a>
-                        }
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -113,10 +104,4 @@
     <div class="parallax"><img src="~/image/banner/banner3.jpg" alt="Unsplashed background img 3"></div>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
-<script>
-    $(document).ready(function () {
-        $('.carousel').carousel();
-    });
-</script>

@@ -19,5 +19,9 @@ namespace WebLayer.Pages.Products
         {
             Products = _productService.FindAllPage(_productService.FindAll().Include(p => p.Image), 1, 9);
         }
+        public void OnPostAddToCart() 
+        {
+            //HttpContext.Session.Set(List<OrdreProduct>, "shoppingCart");
+        }
     }
 }

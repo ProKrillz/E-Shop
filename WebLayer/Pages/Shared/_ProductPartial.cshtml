@@ -1,9 +1,9 @@
 ﻿@model Product
 @{
 }
-<div class="card hoverable sticky-action col s3">
+<div class="card hoverable sticky-action col s12 l3">
     <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src="@Model.Image.Path">
+        <img class="activator" src="@Model.Image.Path" style="height: 250px;">
     </div>
     <div class="card-content">
         <span class=" activator grey-text text-darken-4">@Model.Name<i class="material-icons right">more_vert</i></span>
@@ -19,3 +19,4 @@
         <a class="waves-effect btn black white-text">I kurv</a>
     </div>
 </div>
+<div class="col s1"></div>

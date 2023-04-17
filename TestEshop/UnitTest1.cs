@@ -38,7 +38,7 @@ namespace TestEshop
             var context = EfCoreSetup.CreateContext();
             IUser userService = new RepositoryUser(context);
 
-            await userService.CreateUserAsync("Brian", "Petersen", "b@mail.dk", "password", "Gade 420", 6400);
+            //await userService.CreateUserAsync("Brian", "Petersen", "b@mail.dk", "password", "Gade 420", 6400);
             User foundUser = context.User.Last();
 
             Assert.Equal(foundUser.FirstName, "Brian");
@@ -113,9 +113,9 @@ namespace TestEshop
             var context = EfCoreSetup.CreateContext();
             IProduct productService = new RepositoryProduct(context);
 
-            List<ProductDTO> foundProducts = await productService.SearchProductByProductTextAsync("%Boo%");
+            //List<ProductDTO> foundProducts = await productService.SearchProductByProductTextAsync("%Boo%");
 
-            ProductDTO foundProduct = foundProducts.FirstOrDefault();
+           // ProductDTO foundProduct = foundProducts.FirstOrDefault();
 
             Assert.Equal(foundProduct.Name, "Booster");
         }

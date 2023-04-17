@@ -5,7 +5,18 @@
 }
 <div class="container">
     <br />
-    <a class="waves-effect waves-light btn view" onclick="$('#modal1').modal('open');">Opret Product</a>
+    <div class="row">
+        <form>
+            <p>
+                <div class="input-field col s6">
+                    <input id="icon_title" type="text" class="validate" asp-for="SearchString">
+                    <label for="icon_title">Søg på titel</label>
+                    <input class="" type="submit" value="Filter" hidden/>
+                </div>
+            </p>
+        </form>
+        <a class="waves-effect waves-light btn view col l2 right" onclick="$('#modal1').modal('open');">Opret Product</a>
+    </div>
     <br />
     <table class="striped highlight">
         <thead>
@@ -21,8 +32,10 @@
             </tr>
         </thead>
         <tbody>
-           @foreach (var item in Model.Products)
+            @foreach (var item in Model.Products)
             {
+                <form method="post">
+                    <input hidden value="@item.ProductId" asp-for="ProductId">
                 <tr>
                     <th>@item.Name</th>
                     <th>@item.Description</th>
@@ -31,16 +44,17 @@
                     <th>@item.Category.Name</th>
                     <th>@item.Fk_SetId</th>
                     <th>
-                        <button class="btn waves-effect waves-light yellow darken-1" type="submit" name="action">
+                        <a class="btn waves-effect waves-light yellow darken-1" asp-page="/Products/UpdateProduct" asp-route-ProductId="@item.ProductId">
                             <i class="material-icons">edit</i>
-                        </button>
+                        </a>
                     </th>
                     <th>
-                        <button class="btn waves-effect waves-light red darken-1" type="submit" name="action">
+                        <button class="btn waves-effect waves-light red darken-1" type="submit" name="action" asp-page-handler="Delete">
                             <i class="material-icons">delete</i>
                         </button>
                     </th>
                 </tr>
+                </form>
             }
         </tbody>
     </table>
@@ -53,7 +67,7 @@
                 <h4 class="col">Opret product</h4>
                 <a href="#!" class="modal-close waves-effect waves-green btn-flat right col">Luk</a>
             </div>
-            <form class="col s12" method="post">
+            <form class="col s12" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="input-field col s6">
                         <i class="material-icons prefix">title</i>
@@ -73,21 +87,36 @@
                         <label for="icon_add">Pris</label>
                     </div>
                     <div class="input-field col s6">
-                        <i class="material-icons prefix"></i>
-                        <input id="icon_zip" type="number" class="validate" asp-for="Product.Category.CategoryId">
-                        <label for="icon_zip">Kategori</label>
+                        <select asp-for="Product.Fk_SetId" asp-items="@Model.Sets" required>
+                            <option value="">Valg</option>
+                        </select>
+                        <label>Set</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <i class="material-icons prefix">branding_watermark</i>
-                        <input id="icon_add" type="number" class="validate" asp-for="Product.Brand">
-                        <label for="icon_add">Brand</label>
+                        <select asp-for="Product.Fk_BrandId" asp-items="@Model.Brands" required>
+                            <option value="">Valg</option>
+                        </select>
+                        <label>Brand</label>
                     </div>
                     <div class="input-field col s6">
-                        <i class="material-icons prefix"></i>
-                        <input id="icon_zip" type="number" class="validate" asp-for="Product.Image">
-                        <label for="icon_zip">Billed</label>
+                        <select asp-for="Product.Fk_CategoryId" asp-items="@Model.Catagories" required>
+                            <option value="">Valg</option>
+                        </select>
+                        <label>Kategori</label>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>File</span>
+                            <input type="file" asp-for="UploadImage">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
                     </div>
                 </div>
                 <button class="btn waves-effect waves-light" type="submit" name="action" asp-page-handler="Create">
@@ -103,5 +132,8 @@
 <script>
     $(document).ready(function () {
         $('#modal1').modal();
+    });
+    $(document).ready(function () {
+        $('select').formSelect();
     });
 </script>

@@ -33,7 +33,6 @@ public class EfCoreContext : DbContext
         modelBuilder.Entity<Product>()
            .Property(p => p.ProductId)
            .HasColumnName("product_id")
-           .HasDefaultValue(100)
            .ValueGeneratedOnAdd();
 
         modelBuilder.Entity<Product>()
@@ -52,7 +51,7 @@ public class EfCoreContext : DbContext
         modelBuilder.Entity<Product>()
             .Property(p => p.Price)
             .HasColumnName("product_price")
-            .HasPrecision(6, 2);
+            .HasPrecision(18, 2);
 
         #endregion
 

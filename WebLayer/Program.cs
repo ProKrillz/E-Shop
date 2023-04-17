@@ -1,6 +1,7 @@
 using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer.I_R;
+using WebLayer.Pages.Shared.Helpers.Files;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddDbContext<EfCoreContext>(o => o.UseSqlServer(config.GetConne
 builder.Services.AddScoped<IUser, RepositoryUser>();
 builder.Services.AddScoped<IProduct, RepositoryProduct>();
 builder.Services.AddScoped<IOrdre, RepositoryOrdre>();
+builder.Services.AddScoped<IFileHelper, FileHelper>();
 builder.Services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(30); });
 
 var app = builder.Build();

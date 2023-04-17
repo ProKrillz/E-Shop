@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EfCoreContext))]
-    [Migration("20230329195202_Initials3")]
-    partial class Initials3
+    [Migration("20230414114941_v1")]
+    partial class v1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,21 +24,6 @@ namespace DataLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.Property<int>("CategorysCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategorysCategoryId", "ProductsProductId");
-
-                    b.HasIndex("ProductsProductId");
-
-                    b.ToTable("ProductCategory", (string)null);
-                });
 
             modelBuilder.Entity("DataLayer.Entities.Brand", b =>
                 {
@@ -57,6 +42,13 @@ namespace DataLayer.Migrations
                         .HasName("brand_id");
 
                     b.ToTable("Brands", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            BrandId = 1,
+                            Name = "Konami"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Category", b =>
@@ -76,6 +68,23 @@ namespace DataLayer.Migrations
                         .HasName("category_id");
 
                     b.ToTable("Categorys", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            Name = "Single"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            Name = "Booster"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            Name = "Display"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Delivery", b =>
@@ -104,9 +113,6 @@ namespace DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
 
-                    b.Property<int>("Fk_ProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Path")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("image_path");
@@ -114,10 +120,14 @@ namespace DataLayer.Migrations
                     b.HasKey("ImageId")
                         .HasName("image_id");
 
-                    b.HasIndex("Fk_ProductId")
-                        .IsUnique();
-
                     b.ToTable("Images", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ImageId = 1,
+                            Path = "/Image/Card/dpe.jpg"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Ordre", b =>
@@ -201,8 +211,9 @@ namespace DataLayer.Migrations
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasDefaultValue(100)
                         .HasColumnName("product_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
                     b.Property<string>("Description")
                         .HasMaxLength(200)
@@ -211,6 +222,16 @@ namespace DataLayer.Migrations
 
                     b.Property<int>("Fk_BrandId")
                         .HasColumnType("int");
+
+                    b.Property<int>("Fk_CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Fk_ImageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Fk_SetId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(4)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(50)
@@ -226,9 +247,64 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("Fk_BrandId");
 
+                    b.HasIndex("Fk_CategoryId");
+
+                    b.HasIndex("Fk_ImageId")
+                        .IsUnique();
+
+                    b.HasIndex("Fk_SetId");
+
                     b.HasIndex("Name");
 
                     b.ToTable("Products", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 100,
+                            Description = "Starligth rare",
+                            Fk_BrandId = 1,
+                            Fk_CategoryId = 1,
+                            Fk_ImageId = 1,
+                            Fk_SetId = "POTE",
+                            Name = "Destiny HERO - Destroyer Phoenix Enforcer",
+                            Price = 1700.00m
+                        });
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.Set", b =>
+                {
+                    b.Property<string>("SetId")
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)")
+                        .HasColumnName("set_id");
+
+                    b.Property<string>("SetName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("set_name");
+
+                    b.Property<DateTime>("SetRealse")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("set_realse");
+
+                    b.HasKey("SetId");
+
+                    b.ToTable("Sets", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            SetId = "LOB",
+                            SetName = "Legends of blue-eyes white dragon",
+                            SetRealse = new DateTime(2002, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SetId = "POTE",
+                            SetName = "Power of the Elements",
+                            SetRealse = new DateTime(2022, 8, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.User", b =>
@@ -242,11 +318,16 @@ namespace DataLayer.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("user_address");
 
+                    b.Property<bool>("Admin")
+                        .HasColumnType("bit")
+                        .HasColumnName("user_admin");
+
                     b.Property<bool>("Disable")
                         .HasColumnType("bit")
                         .HasColumnName("user_disable");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("user_email");
@@ -265,6 +346,7 @@ namespace DataLayer.Migrations
                         .HasColumnName("user_lastname");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("user_password");
 
@@ -274,6 +356,20 @@ namespace DataLayer.Migrations
                     b.HasIndex("Fk_ZipCodeId");
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("0a916c32-36a6-42e0-9b05-b46d7e643d56"),
+                            Address = "Alsgade 42A",
+                            Admin = true,
+                            Disable = false,
+                            Email = "admin@admin.dk",
+                            FirstName = "Thomas",
+                            Fk_ZipCodeId = 6400,
+                            Lastname = "Damkjær",
+                            Password = "linkin"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.ZipCode", b =>
@@ -293,32 +389,13 @@ namespace DataLayer.Migrations
                     b.HasKey("ZipCodeId");
 
                     b.ToTable("ZipCodes", (string)null);
-                });
 
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategorysCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.Entities.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.Image", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Product", "Product")
-                        .WithOne("Image")
-                        .HasForeignKey("DataLayer.Entities.Image", "Fk_ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
+                    b.HasData(
+                        new
+                        {
+                            ZipCodeId = 6400,
+                            City = "Sønderborg"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Ordre", b =>
@@ -375,7 +452,31 @@ namespace DataLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DataLayer.Entities.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("Fk_CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.Entities.Image", "Image")
+                        .WithOne("Product")
+                        .HasForeignKey("DataLayer.Entities.Product", "Fk_ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.Entities.Set", "Set")
+                        .WithMany("Product")
+                        .HasForeignKey("Fk_SetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Brand");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Image");
+
+                    b.Navigation("Set");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.User", b =>
@@ -394,9 +495,19 @@ namespace DataLayer.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("DataLayer.Entities.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("DataLayer.Entities.Delivery", b =>
                 {
                     b.Navigation("Ordres");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.Image", b =>
+                {
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Ordre", b =>
@@ -411,9 +522,12 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Entities.Product", b =>
                 {
-                    b.Navigation("Image");
-
                     b.Navigation("Ordres");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.Set", b =>
+                {
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.User", b =>

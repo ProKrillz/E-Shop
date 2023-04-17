@@ -14,14 +14,30 @@
 </head>
 <body>
     <header>
-        <nav class="purple darken-2"  role="navigation">
+        <nav class="cyan darken-3" role="navigation">
             <div class="nav-wrapper container ">
                 <a id="logo-container" asp-page="/Index" class="brand-logo left white-text">Krillz Cardz</a>
-                
-                <ul class="right">
-                    <a class="white-text" asp-page="/Users/Login">Login</a>
-                </ul>
-
+                @if (string.IsNullOrEmpty(Context.Session.GetString("userId")))
+                {
+                    <ul class="right">
+                        <a class="white-text" asp-page="/Users/Login">Login</a>
+                    </ul>
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(Context.Session.GetString("userAdmin")))
+                    {
+                        <ul class="right">
+                            <a class="white-text" asp-page="/Users/User">Profil</a>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="right">
+                            <a class="white-text" asp-page="/Users/Admin">Profil</a>
+                        </ul>
+                    }
+                }
                 <ul class="right">
                     <a class="waves-effect btn black white-text" asp-page="/Products/Cart"><i class="material-icons left">shopping_cart</i>Indkøbskurv</a>
                 </ul>
@@ -34,14 +50,12 @@
     </main>
 
 
-    <footer class="page-footer purple darken-2">
+    <footer class="page-footer cyan darken-3">
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
                     <h5 class="white-text">Kontakt</h5>
                     <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
-
                 </div>
                 <div class="col l3 s12">
                     <h5 class="white-text">Settings</h5>
@@ -69,12 +83,13 @@
             </div>
         </div>
     </footer>
-
+    @*<partial name="_ValidationScriptsPartial"></partial>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="~/js/materialize.js"></script>
     <script src="~/js/init.js"></script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

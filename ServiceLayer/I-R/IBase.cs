@@ -13,6 +13,4 @@ public interface IBase<T>
     void Delete(T entity);
     IQueryable<T> FindAllPage(IQueryable<T> query, int currentpage, int pageSize);
     int Count();
-
-
 }

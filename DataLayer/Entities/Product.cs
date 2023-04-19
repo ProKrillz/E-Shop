@@ -10,6 +10,7 @@ public class Product
     public int ProductId { get; set; }
     [Required, MaxLength(50)]
     public string? Name { get; set; }
+    [Required, MaxLength(50)]
     public string? Description { get; set; }
     [Required(ErrorMessage = "Skal være et tal")]
     [Range(0, 100000.00)]

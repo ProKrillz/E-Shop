@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer.I_R;
-using System.ComponentModel.DataAnnotations;
 using WebLayer.Pages.Shared.Helpers.Files;
 
 namespace WebLayer.Pages.Users;

@@ -4,6 +4,8 @@ namespace ServiceLayer.I_R
 {
     public interface IOrdre : IBase<Ordre>
     {
+        List<Payment> GetAllPayments();
+        List<Delivery> GetDeliveries();
         /// <summary>
         /// Create ordre (dosent work)
         /// </summary>

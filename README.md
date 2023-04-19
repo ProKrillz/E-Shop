@@ -8,6 +8,10 @@ Technologies:
 * <a href="https://learn.microsoft.com/en-us/dotnet/csharp/" target="_blank">C#</a>
 * <a href="https://www.microsoft.com/en-us/sql-server/sql-server-downloads" target="_blank">SQL</a>
 
+Front
+
+* <a href="https://materializecss.com/" target="_blank">Materialize</a>
+
 Made by Thomas Damkjær
 
 ## Requirements
@@ -22,8 +26,13 @@ Never ever
 
 ## Upcoming features
 
-* WebLayer
+* Toast (warnings)
+* More brands and categorys
+* Better user and admin site
+* Send email with ordre to customer
 
 ## Known issues
 
-* To many
+* Missing number on shopingcart on how many products
+* Pageing
+* Filter and search not working 100%

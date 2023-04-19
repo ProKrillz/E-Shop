@@ -100,6 +100,23 @@ namespace DataLayer.Migrations
                     b.HasKey("DeliveryId");
 
                     b.ToTable("Deliverys", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            DeliveryId = 1,
+                            DeliveryOption = "Postnord"
+                        },
+                        new
+                        {
+                            DeliveryId = 2,
+                            DeliveryOption = "Gls"
+                        },
+                        new
+                        {
+                            DeliveryId = 3,
+                            DeliveryOption = "Hent selv"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Image", b =>
@@ -124,6 +141,56 @@ namespace DataLayer.Migrations
                         {
                             ImageId = 1,
                             Path = "/Image/Card/dpe.jpg"
+                        },
+                        new
+                        {
+                            ImageId = 2,
+                            Path = "/Image/Card/BlcrBooster.jpg"
+                        },
+                        new
+                        {
+                            ImageId = 3,
+                            Path = "/Image/Card/BlcrBox.jpg"
+                        },
+                        new
+                        {
+                            ImageId = 4,
+                            Path = "/Image/Card/PoteBooster.jpg"
+                        },
+                        new
+                        {
+                            ImageId = 5,
+                            Path = "/Image/Card/PoteBox.jpg"
+                        },
+                        new
+                        {
+                            ImageId = 6,
+                            Path = "/Image/Card/PhhyBooster.jpg"
+                        },
+                        new
+                        {
+                            ImageId = 7,
+                            Path = "/Image/Card/PhhyBox.jpg"
+                        },
+                        new
+                        {
+                            ImageId = 8,
+                            Path = "/Image/Card/DablBooster.jpg"
+                        },
+                        new
+                        {
+                            ImageId = 9,
+                            Path = "/Image/Card/DablBox.jpg"
+                        },
+                        new
+                        {
+                            ImageId = 10,
+                            Path = "/Image/Card/MamaBooster.jpg"
+                        },
+                        new
+                        {
+                            ImageId = 11,
+                            Path = "/Image/Card/MamaBox.jpg"
                         });
                 });
 
@@ -132,8 +199,9 @@ namespace DataLayer.Migrations
                     b.Property<int>("OrdreId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasDefaultValue(10000)
                         .HasColumnName("ordre_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrdreId"));
 
                     b.Property<DateTime>("Created")
                         .ValueGeneratedOnAdd()
@@ -201,6 +269,23 @@ namespace DataLayer.Migrations
                     b.HasKey("PaymentId");
 
                     b.ToTable("Payments", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            PaymentId = 1,
+                            PaymentOption = "DanKort"
+                        },
+                        new
+                        {
+                            PaymentId = 2,
+                            PaymentOption = "MasterKort"
+                        },
+                        new
+                        {
+                            PaymentId = 3,
+                            PaymentOption = "Mobilpay"
+                        });
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Product", b =>
@@ -231,6 +316,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("nvarchar(4)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("product_name");
@@ -266,6 +352,116 @@ namespace DataLayer.Migrations
                             Fk_SetId = "POTE",
                             Name = "Destiny HERO - Destroyer Phoenix Enforcer",
                             Price = 1700.00m
+                        },
+                        new
+                        {
+                            ProductId = 101,
+                            Description = "4 Ultra rare og 1 secret rare i pakken",
+                            Fk_BrandId = 1,
+                            Fk_CategoryId = 2,
+                            Fk_ImageId = 2,
+                            Fk_SetId = "BLCR",
+                            Name = "Battle of legend: Crystal revenge",
+                            Price = 40.00m
+                        },
+                        new
+                        {
+                            ProductId = 102,
+                            Description = "24 booster i boxen",
+                            Fk_BrandId = 1,
+                            Fk_CategoryId = 3,
+                            Fk_ImageId = 3,
+                            Fk_SetId = "BLCR",
+                            Name = "Battle of legend: Crystal revenge",
+                            Price = 500.00m
+                        },
+                        new
+                        {
+                            ProductId = 103,
+                            Description = "9 kort i pakken",
+                            Fk_BrandId = 1,
+                            Fk_CategoryId = 2,
+                            Fk_ImageId = 4,
+                            Fk_SetId = "POTE",
+                            Name = "Power of the Elements",
+                            Price = 40.00m
+                        },
+                        new
+                        {
+                            ProductId = 104,
+                            Description = "24 booster i boxen",
+                            Fk_BrandId = 1,
+                            Fk_CategoryId = 3,
+                            Fk_ImageId = 5,
+                            Fk_SetId = "POTE",
+                            Name = "Power of the Elements",
+                            Price = 500.00m
+                        },
+                        new
+                        {
+                            ProductId = 105,
+                            Description = "9 kort i pakken",
+                            Fk_BrandId = 1,
+                            Fk_CategoryId = 2,
+                            Fk_ImageId = 6,
+                            Fk_SetId = "PHHY",
+                            Name = "Photon hypernova",
+                            Price = 40.00m
+                        },
+                        new
+                        {
+                            ProductId = 106,
+                            Description = "24 booster i boxen",
+                            Fk_BrandId = 1,
+                            Fk_CategoryId = 3,
+                            Fk_ImageId = 7,
+                            Fk_SetId = "PHHY",
+                            Name = "Photon hypernova",
+                            Price = 500.00m
+                        },
+                        new
+                        {
+                            ProductId = 107,
+                            Description = "9 kort i pakken",
+                            Fk_BrandId = 1,
+                            Fk_CategoryId = 2,
+                            Fk_ImageId = 8,
+                            Fk_SetId = "DABL",
+                            Name = "Darkwing blast",
+                            Price = 40.00m
+                        },
+                        new
+                        {
+                            ProductId = 108,
+                            Description = "24 booster i boxen",
+                            Fk_BrandId = 1,
+                            Fk_CategoryId = 3,
+                            Fk_ImageId = 9,
+                            Fk_SetId = "DABL",
+                            Name = "Darkwing blast",
+                            Price = 500.00m
+                        },
+                        new
+                        {
+                            ProductId = 109,
+                            Description = "5 ultra kort i pakken",
+                            Fk_BrandId = 1,
+                            Fk_CategoryId = 2,
+                            Fk_ImageId = 10,
+                            Fk_SetId = "MAMA",
+                            Name = "Magnificent mavens",
+                            Price = 35.00m
+                        },
+                        new
+                        {
+                            ProductId = 110,
+                            Description = "4 booster pack og 60 sleevs i boxen",
+                            Fk_BrandId = 1,
+                            Fk_CategoryId = 3,
+                            Fk_ImageId = 11,
+                            Fk_SetId = "MAMA",
+                            Name = "Magnificent mavens",
+                            Price = 150.00m
                         });
                 });
 
@@ -292,15 +488,33 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            SetId = "LOB",
-                            SetName = "Legends of blue-eyes white dragon",
-                            SetRealse = new DateTime(2002, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
                             SetId = "POTE",
                             SetName = "Power of the Elements",
                             SetRealse = new DateTime(2022, 8, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SetId = "PHHY",
+                            SetName = "Photon hypernova",
+                            SetRealse = new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SetId = "BLCR",
+                            SetName = "Battle of legend: Crystal revenge",
+                            SetRealse = new DateTime(2022, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SetId = "DABL",
+                            SetName = "Darkwing blast",
+                            SetRealse = new DateTime(2022, 10, 20, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SetId = "MAMA",
+                            SetName = "Magnificent mavens",
+                            SetRealse = new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -392,6 +606,16 @@ namespace DataLayer.Migrations
                         {
                             ZipCodeId = 6400,
                             City = "Sønderborg"
+                        },
+                        new
+                        {
+                            ZipCodeId = 6200,
+                            City = "Aabenraa"
+                        },
+                        new
+                        {
+                            ZipCodeId = 6100,
+                            City = "Haderslev"
                         });
                 });
 

@@ -4,4 +4,26 @@
 }
 <div class="container">
     <div>@Model.User.FirstName</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Ordre</th>
+                <th>Oprettet</th>
+           
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.User.Ordres)
+            {
+                <tr>
+                    <td>@item.OrdreId</td>
+                    <td>@item.Created</td>
+                 
+                </tr>
+                
+            }
+          
+        </tbody>
+    </table>
 </div>

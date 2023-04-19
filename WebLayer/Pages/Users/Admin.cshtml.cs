@@ -30,6 +30,10 @@ public class AdminModel : PageModel
     public List<SelectListItem>? Catagories { get; set; }
     public List<SelectListItem>? Brands { get; set; }
     public List<SelectListItem>? Sets { get; set; }
+    [BindProperty(SupportsGet = true)]
+    public int SelectCat { get; set; }
+    [BindProperty(SupportsGet = true)]
+    public string SelectSet { get; set; }
 
     public async Task OnGet()
     {
@@ -55,10 +59,17 @@ public class AdminModel : PageModel
         {
             Products = _productService.FindAllPage(_productService.FindAll().Where(s => s.Name.Contains(SearchString)).Include(p => p.Image).Include(p => p.Brand).Include(p => p.Category), 1, 9);
         }
-        else
+        if (SelectCat > 0)
+        {
+            Products = _productService.FindAllPage(_productService.FindAll().Where(s => s.Fk_CategoryId == SelectCat).Include(p => p.Image).Include(p => p.Brand).Include(p => p.Category), 1, 9);
+        }
+        if (!string.IsNullOrEmpty(SelectSet))
+        {
+            Products = _productService.FindAllPage(_productService.FindAll().Where(s => s.Fk_SetId == SelectSet).Include(p => p.Image).Include(p => p.Brand).Include(p => p.Category), 1, 9);
+        }
+        if(string.IsNullOrEmpty(SelectSet) && SelectCat < 1 && string.IsNullOrEmpty(SearchString))
         {
             Products = _productService.FindAllPage(_productService.FindAll().Include(p => p.Image).Include(p => p.Brand).Include(p => p.Category), 1, 9);
-
         }
     }
     public async Task OnPostCreate()

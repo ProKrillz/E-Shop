@@ -1,8 +1,8 @@
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ServiceLayer.I_R;
 using System.Data;
 using WebLayer.Pages.Shared.Helpers.Files;
@@ -28,10 +28,11 @@ public class UpdateProductModel : PageModel
     public List<SelectListItem>? Catagories { get; set; }
     [BindProperty]
     public List<SelectListItem>? Brands { get; set; }
-    [BindProperty]
-    public List<SelectListItem>? Sets { get; set; }
+    //[BindProperty]
+    //public List<SelectListItem>? Sets { get; set; }
     [BindProperty]
     public IFormFile? UploadImage { get; set; }
+    public SelectList Sets { get; set; }
     public async Task<IActionResult> OnGetAsync()
     {
         if (!string.IsNullOrEmpty(HttpContext.Session.GetString("userAdmin")))
@@ -50,11 +51,13 @@ public class UpdateProductModel : PageModel
                 Value = b.BrandId.ToString(),
                 Text = b.Name.ToString()
             }).ToList();
-            Sets = setTypeModels.Select(s => new SelectListItem
-            {
-                Value = s.SetId.ToString(),
-                Text = s.SetName.ToString()
-            }).ToList();
+            //Sets = setTypeModels.Select(s => new SelectListItem
+            //{
+            //    Value = s.SetId.ToString(),
+            //    Text = s.SetName.ToString()
+            //}).ToList();
+            Sets = new SelectList(await _productService.GetAllSetsAsync(), "SetId", "SetName");
+
             return Page();
         }
         return RedirectToPage("/Index");
@@ -85,6 +88,9 @@ public class UpdateProductModel : PageModel
         }
         else
         {
+            //Sets = new SelectList(await _productService.GetAllSetsAsync(), "SetId", "SetName");
+            //return RedirectToPagePermanent("/Products/UpdateProduct");
+
             return Page();
         }
     }

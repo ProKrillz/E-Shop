@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
 
 </head>
+@{
+    string amount = Context.Session.GetString("CartAmountString");
+}
 <body>
     <header>
         <nav class="cyan darken-3" role="navigation">
@@ -28,7 +31,7 @@
                     if (string.IsNullOrEmpty(Context.Session.GetString("userAdmin")))
                     {
                         <ul class="right">
-                            <a class="white-text" asp-page="/Users/User">Profil</a>
+                            <a class="white-text" asp-page="/Users/UserSite">Profil</a>
                         </ul>
                     }
                     else
@@ -39,7 +42,14 @@
                     }
                 }
                 <ul class="right">
-                    <a class="waves-effect btn black white-text" asp-page="/Products/Cart"><i class="material-icons left">shopping_cart</i>Indkøbskurv</a>
+                    <a class="waves-effect btn black white-text" asp-page="/Products/Cart"><i class="material-icons left">shopping_cart</i>Indkøbskurv 
+                        @if (!string.IsNullOrEmpty(Context.Session.GetString("CartAmountString"))) 
+                        {
+                            <div>
+                            (@amount)
+                            </div>
+                        }
+                    </a>
                 </ul>
             </div>
         </nav>

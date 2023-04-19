@@ -10,6 +10,14 @@ namespace ServiceLayer.I_R
         public RepositoryOrdre(EfCoreContext context) : base(context)
             => _coreContext = context;
 
+        public List<Payment> GetAllPayments()
+        {
+            return _coreContext.Payment.ToList();
+        }
+        public List<Delivery> GetDeliveries()
+        {
+            return _coreContext.Delivery.ToList();
+        }
         public async Task CreateOrdreAsync(Ordre ordre)
         {
             await _coreContext.Ordre.AddAsync(ordre);

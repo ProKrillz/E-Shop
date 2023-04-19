@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Home page";
 }
-<div id="index-banner" class="parallax-container">
+<div id="index-banner" class="parallax-container z-depth-5">
     <div class="parallax"><img src="~/image/banner/banner1.jpg" alt="Unsplashed background img 1"></div>
 </div>
 
@@ -66,7 +66,7 @@
     </div>
 </div>
 
-<div class="parallax-container valign-wrapper">
+<div class="parallax-container valign-wrapper z-depth-5">
     <div class="section no-pad-bot">
         <div class="container">
             <div class="row center">
@@ -86,6 +86,12 @@
                 <a asp-page="/Products/AllProducts">
                     <h4>Produkter</h4>
                 </a>
+                <div class="row">
+                    @foreach (var item in Model.Products)
+                    {
+                        <partial name="_ProductPartial" model="item" />
+                    }
+                </div>
                 
             </div>
         </div>

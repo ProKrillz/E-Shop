@@ -6,7 +6,7 @@
         <img class="activator" src="@Model.Image.Path" style="height: 250px;">
     </div>
     <div class="card-content">
-        <span class=" activator grey-text text-darken-4">@Model.Name<i class="material-icons right">more_vert</i></span>
+        <span class=" activator grey-text text-darken-4">@Model.Name</span>
         <p class="red-text">@Model.Price Kr.</p>
     </div>
     <div class="card-reveal">
@@ -15,8 +15,15 @@
         <p>Set: @Model.Fk_SetId</p>
         <p>@Model.Fk_CategoryId</p>
     </div>
-    <div class="card-action">
-        <a class="waves-effect btn black white-text">I kurv</a>
-    </div>
+    <form method="post">
+        <input hidden asp-for="@Model.ProductId" value="@Model.ProductId"/>
+        <div class="input-field">
+            <input asp-for="@Model.Fk_BrandId" id="first_name" type="text" class="validate">
+            <label for="first_name">Antal</label>
+        </div>
+        <div class="card-action">
+            <button class="waves-effect btn black white-text" asp-page-handler="AddToCart">I kurv</button>
+        </div>
+    </form>
 </div>
 <div class="col s1"></div>

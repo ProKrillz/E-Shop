@@ -13,6 +13,7 @@ public class EfCoreContext : DbContext
     public DbSet<User> User { get; set; }
     public DbSet<ZipCode> ZipCode { get; set; }
     public DbSet<Set> Set { get; set; }
+    public DbSet<Payment> Payment { get; set; }
 
     public EfCoreContext()
     {
@@ -131,7 +132,6 @@ public class EfCoreContext : DbContext
         modelBuilder.Entity<Ordre>()
            .Property(o => o.OrdreId)
            .HasColumnName("ordre_id")
-           .HasDefaultValue(10000)
            .ValueGeneratedOnAdd();
 
         modelBuilder.Entity<Ordre>()
@@ -309,11 +309,16 @@ public class EfCoreContext : DbContext
         SeedProduct(modelBuilder);
         SeedZip(modelBuilder);
         SeedAdmin(modelBuilder);
+        SeedDelvery(modelBuilder);
+        SeedPayments(modelBuilder);
     }
-    private void SeedSet(ModelBuilder modelBuilder)
+    private void SeedSet(ModelBuilder modelBuilder)//"04-08-2022"
     {
-        modelBuilder.Entity<Set>().HasData( new Set { SetId = "LOB", SetName = "Legends of blue-eyes white dragon", SetRealse = DateTime.Parse("03-01-2002") });
-        modelBuilder.Entity<Set>().HasData( new Entities.Set { SetId = "POTE", SetName = "Power of the Elements", SetRealse = DateTime.Parse("04-08-2022") });
+        modelBuilder.Entity<Set>().HasData(new Set { SetId = "POTE", SetName = "Power of the Elements", SetRealse = new DateTime(2022,08,04) });
+        modelBuilder.Entity<Set>().HasData(new Set { SetId = "PHHY", SetName = "Photon hypernova", SetRealse = new DateTime(2023,02,09) });
+        modelBuilder.Entity<Set>().HasData(new Set { SetId = "BLCR", SetName = "Battle of legend: Crystal revenge", SetRealse = new DateTime(2022,11,17) });
+        modelBuilder.Entity<Set>().HasData(new Set { SetId = "DABL", SetName = "Darkwing blast", SetRealse = new DateTime(2022,10,20) });
+        modelBuilder.Entity<Set>().HasData(new Set { SetId = "MAMA", SetName = "Magnificent mavens", SetRealse = new DateTime(2022,11,03) });
     }
     private void SeedBrand(ModelBuilder modelBuilder)
     {
@@ -329,17 +334,38 @@ public class EfCoreContext : DbContext
     }
     private void SeedImage(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Image>().HasData(
-            new Image { ImageId = 1, Path = "/Image/Card/dpe.jpg" }
-            ) ;
+        modelBuilder.Entity<Image>().HasData(new Image { ImageId = 1, Path = "/Image/Card/dpe.jpg" });
+        modelBuilder.Entity<Image>().HasData(new Image { ImageId = 2, Path = "/Image/Card/BlcrBooster.jpg" });
+        modelBuilder.Entity<Image>().HasData(new Image { ImageId = 3, Path = "/Image/Card/BlcrBox.jpg" });
+        modelBuilder.Entity<Image>().HasData(new Image { ImageId = 4, Path = "/Image/Card/PoteBooster.jpg" });
+        modelBuilder.Entity<Image>().HasData(new Image { ImageId = 5, Path = "/Image/Card/PoteBox.jpg" });
+        modelBuilder.Entity<Image>().HasData(new Image { ImageId = 6, Path = "/Image/Card/PhhyBooster.jpg" });
+        modelBuilder.Entity<Image>().HasData(new Image { ImageId = 7, Path = "/Image/Card/PhhyBox.jpg" });
+        modelBuilder.Entity<Image>().HasData(new Image { ImageId = 8, Path = "/Image/Card/DablBooster.jpg" });
+        modelBuilder.Entity<Image>().HasData(new Image { ImageId = 9, Path = "/Image/Card/DablBox.jpg" });
+        modelBuilder.Entity<Image>().HasData(new Image { ImageId = 10, Path = "/Image/Card/MamaBooster.jpg" });
+        modelBuilder.Entity<Image>().HasData(new Image { ImageId = 11, Path = "/Image/Card/MamaBox.jpg" });
     }
     private void SeedProduct(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Product>().HasData(new Product { ProductId = 100, Name = "Destiny HERO - Destroyer Phoenix Enforcer", Description = "Starligth rare", Price = 1700.00M, Fk_BrandId = 1, Fk_SetId = "POTE", Fk_CategoryId = 1, Fk_ImageId = 1 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 101, Name = "Battle of legend: Crystal revenge", Description = "4 Ultra rare og 1 secret rare i pakken", Price = 40.00M, Fk_BrandId = 1, Fk_SetId = "BLCR", Fk_CategoryId = 2, Fk_ImageId = 2 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 102, Name = "Battle of legend: Crystal revenge", Description = "24 booster i boxen", Price = 500.00M, Fk_BrandId = 1, Fk_SetId = "BLCR", Fk_CategoryId = 3, Fk_ImageId = 3 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 103, Name = "Power of the Elements", Description = "9 kort i pakken", Price = 40.00M, Fk_BrandId = 1, Fk_SetId = "POTE", Fk_CategoryId = 2, Fk_ImageId = 4 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 104, Name = "Power of the Elements", Description = "24 booster i boxen", Price = 500.00M, Fk_BrandId = 1, Fk_SetId = "POTE", Fk_CategoryId = 3, Fk_ImageId = 5 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 105, Name = "Photon hypernova", Description = "9 kort i pakken", Price = 40.00M, Fk_BrandId = 1, Fk_SetId = "PHHY", Fk_CategoryId = 2, Fk_ImageId = 6 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 106, Name = "Photon hypernova", Description = "24 booster i boxen", Price = 500.00M, Fk_BrandId = 1, Fk_SetId = "PHHY", Fk_CategoryId = 3, Fk_ImageId = 7 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 107, Name = "Darkwing blast", Description = "9 kort i pakken", Price = 40.00M, Fk_BrandId = 1, Fk_SetId = "DABL", Fk_CategoryId = 2, Fk_ImageId = 8 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 108, Name = "Darkwing blast", Description = "24 booster i boxen", Price = 500.00M, Fk_BrandId = 1, Fk_SetId = "DABL", Fk_CategoryId = 3, Fk_ImageId = 9 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 109, Name = "Magnificent mavens", Description = "5 ultra kort i pakken", Price = 35.00M, Fk_BrandId = 1, Fk_SetId = "MAMA", Fk_CategoryId = 2, Fk_ImageId = 10 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 110, Name = "Magnificent mavens", Description = "4 booster pack og 60 sleevs i boxen", Price = 150.00M, Fk_BrandId = 1, Fk_SetId = "MAMA", Fk_CategoryId = 3, Fk_ImageId = 11 });
+
     }
     private void SeedZip(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ZipCode>().HasData(new ZipCode { ZipCodeId = 6400, City = "Sønderborg"});
+        modelBuilder.Entity<ZipCode>().HasData(new ZipCode { ZipCodeId = 6200, City = "Aabenraa" });
+        modelBuilder.Entity<ZipCode>().HasData(new ZipCode { ZipCodeId = 6100, City = "Haderslev" });
     }
     private void SeedAdmin(ModelBuilder modelBuilder)
     {
@@ -353,5 +379,17 @@ public class EfCoreContext : DbContext
             Address = "Alsgade 42A",
             Fk_ZipCodeId = 6400,
             Disable = false }) ;
+    }
+    private void SeedPayments(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Payment>().HasData(new Payment { PaymentId = 1, PaymentOption = "DanKort" });
+        modelBuilder.Entity<Payment>().HasData(new Payment { PaymentId = 2, PaymentOption = "MasterKort" });
+        modelBuilder.Entity<Payment>().HasData(new Payment { PaymentId = 3, PaymentOption = "Mobilpay" });
+    }
+    private void SeedDelvery(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Delivery>().HasData(new Delivery { DeliveryId = 1, DeliveryOption = "Postnord" });
+        modelBuilder.Entity<Delivery>().HasData(new Delivery { DeliveryId = 2, DeliveryOption = "Gls" });
+        modelBuilder.Entity<Delivery>().HasData(new Delivery { DeliveryId = 3, DeliveryOption = "Hent selv" });
     }
 }

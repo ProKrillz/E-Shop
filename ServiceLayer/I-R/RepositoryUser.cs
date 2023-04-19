@@ -17,7 +17,7 @@ public class RepositoryUser : RepositroyBase<User>, IUser
     }
     public async Task<User> GetUserByGuidAsync(Guid id)
     {
-        User foundUser = await _coreContext.User.Where(u => u.UserId == id && u.Disable == false).Include(u => u.Ordres).FirstOrDefaultAsync();
+        User foundUser = await _coreContext.User.Where(u => u.UserId == id && u.Disable == false).Include(u => u.Ordres).Include(u => u.ZipCode).FirstOrDefaultAsync();
         if (foundUser != null)    
             return foundUser;
         

@@ -2,3 +2,96 @@
 @model WebLayer.Pages.Products.CartModel
 @{
 }
+<div class="container">
+    <table class="highlight">
+        <thead>
+            <tr>
+                <th>vare</th>
+                <th>Price</th>
+                <th>Antal</th>
+                <th>Slet</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @Model.CartProducts)
+            {
+                <tr>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Product.Price</td>
+                    <td>@item.Amount</td>
+                    <form asp-page-handler="Delete" method="post">
+                    <th>
+                        <input hidden value="@item.Product.ProductId" asp-for="Product.ProductId">
+                        <button class="btn waves-effect waves-light red darken-1" type="submit">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </th>
+                    </form>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+    <div>Total pris: @Model.TotalPrice kr.</div>
+    <br />
+    @if (string.IsNullOrEmpty(HttpContext.Session.GetString("userId")))
+    {
+        <a class="waves-effect waves-light btn view col l2" asp-page="/Users/Login">Login</a>
+    }
+    else if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Cart")))
+    {
+        <a class="waves-effect waves-light btn view col l2" onclick="$('#modal1').modal('open');">Bestil</a>
+    }
+    else
+    {
+        <a class="waves-effect waves-light btn view col l2" asp-page="/Products/AllProducts">Find Product</a>
+    }
+    <br />
+
+    @if (!string.IsNullOrEmpty(HttpContext.Session.GetString("userId")))
+    {
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <div class="row">
+                    <h4 class="col">Opret ordre</h4>
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat right col">Luk</a>
+                </div>
+                <form class="col s12" method="post">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <select asp-for="Ordre.Fk_DeliveryId" asp-items="@Model.Deliverys" required>
+                                <option value="">Valg</option>
+                            </select>
+                            <label>Levering</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <select asp-for="Ordre.Fk_PayementId" asp-items="@Model.Payments" required>
+                                <option value="">Valg</option>
+                            </select>
+                            <label>Betalings måde</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p>Addresse: @Model.User.Address</p>
+                        <p>Postnummer: @Model.User.Fk_ZipCodeId @Model.User.ZipCode.City</p>
+                    </div>
+
+                    <button class="btn waves-effect waves-light" type="submit" name="action" asp-page-handler="Create">
+                        Bestil
+                        <i class="material-icons right">send</i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    }
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#modal1').modal();
+    });
+    $(document).ready(function () {
+        $('select').formSelect();
+    });
+</script>

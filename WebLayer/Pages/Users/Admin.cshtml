@@ -8,10 +8,19 @@
     <div class="row">
         <form>
             <p>
-                <div class="input-field col s6">
+                <div class="col l2">
+
+            <select asp-for="SelectCat" asp-items="Model.Catagories">
+                <option value="">Kategori</option>
+            </select>
+                    <select asp-for="SelectSet" asp-items="Model.Sets">
+                        <option value="">Set</option>
+                    </select>
+                </div>
+                <div class="input-field col l6">
                     <input id="icon_title" type="text" class="validate" asp-for="SearchString">
                     <label for="icon_title">Søg på titel</label>
-                    <input class="" type="submit" value="Filter" hidden/>
+                    <input class="waves-effect waves-light btn view right" type="submit" value="Filter" />
                 </div>
             </p>
         </form>

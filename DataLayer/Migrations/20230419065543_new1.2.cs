@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class v1 : Migration
+    public partial class new12 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -110,9 +110,9 @@ namespace DataLayer.Migrations
                 {
                     product_id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    product_name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    product_name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     product_description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    product_price = table.Column<decimal>(type: "decimal(6,2)", precision: 6, scale: 2, nullable: false),
+                    product_price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Fk_SetId = table.Column<string>(type: "nvarchar(4)", nullable: false),
                     Fk_BrandId = table.Column<int>(type: "int", nullable: false),
                     Fk_ImageId = table.Column<int>(type: "int", nullable: false),
@@ -176,7 +176,8 @@ namespace DataLayer.Migrations
                 name: "Ordres",
                 columns: table => new
                 {
-                    ordre_id = table.Column<int>(type: "int", nullable: false, defaultValue: 10000),
+                    ordre_id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ordre_created = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     ordre_updated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Fk_PayementId = table.Column<int>(type: "int", nullable: false),
@@ -247,28 +248,82 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Deliverys",
+                columns: new[] { "DeliveryId", "delivery_option" },
+                values: new object[,]
+                {
+                    { 1, "Postnord" },
+                    { 2, "Gls" },
+                    { 3, "Hent selv" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Images",
                 columns: new[] { "ImageId", "image_path" },
-                values: new object[] { 1, "/Image/Card/dpe.jpg" });
+                values: new object[,]
+                {
+                    { 1, "/Image/Card/dpe.jpg" },
+                    { 2, "/Image/Card/BlcrBooster.jpg" },
+                    { 3, "/Image/Card/BlcrBox.jpg" },
+                    { 4, "/Image/Card/PoteBooster.jpg" },
+                    { 5, "/Image/Card/PoteBox.jpg" },
+                    { 6, "/Image/Card/PhhyBooster.jpg" },
+                    { 7, "/Image/Card/PhhyBox.jpg" },
+                    { 8, "/Image/Card/DablBooster.jpg" },
+                    { 9, "/Image/Card/DablBox.jpg" },
+                    { 10, "/Image/Card/MamaBooster.jpg" },
+                    { 11, "/Image/Card/MamaBox.jpg" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Payments",
+                columns: new[] { "PaymentId", "payment_option" },
+                values: new object[,]
+                {
+                    { 1, "DanKort" },
+                    { 2, "MasterKort" },
+                    { 3, "Mobilpay" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Sets",
                 columns: new[] { "set_id", "set_name", "set_realse" },
                 values: new object[,]
                 {
-                    { "LOB", "Legends of blue-eyes white dragon", new DateTime(2002, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "BLCR", "Battle of legend: Crystal revenge", new DateTime(2022, 11, 17, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "DABL", "Darkwing blast", new DateTime(2022, 10, 20, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "MAMA", "Magnificent mavens", new DateTime(2022, 11, 3, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { "PHHY", "Photon hypernova", new DateTime(2023, 2, 9, 0, 0, 0, 0, DateTimeKind.Unspecified) },
                     { "POTE", "Power of the Elements", new DateTime(2022, 8, 4, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
                 table: "ZipCodes",
                 columns: new[] { "zipcode_id", "zipcode_city" },
-                values: new object[] { 6400, "Sønderborg" });
+                values: new object[,]
+                {
+                    { 6100, "Haderslev" },
+                    { 6200, "Aabenraa" },
+                    { 6400, "Sønderborg" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "product_id", "product_description", "Fk_BrandId", "Fk_CategoryId", "Fk_ImageId", "Fk_SetId", "product_name", "product_price" },
-                values: new object[] { 100, "Starligth rare", 1, 1, 1, "POTE", "Destiny HERO - Destroyer Phoenix Enforcer", 1700.00m });
+                values: new object[,]
+                {
+                    { 100, "Starligth rare", 1, 1, 1, "POTE", "Destiny HERO - Destroyer Phoenix Enforcer", 1700.00m },
+                    { 101, "4 Ultra rare og 1 secret rare i pakken", 1, 2, 2, "BLCR", "Battle of legend: Crystal revenge", 40.00m },
+                    { 102, "24 booster i boxen", 1, 3, 3, "BLCR", "Battle of legend: Crystal revenge", 500.00m },
+                    { 103, "9 kort i pakken", 1, 2, 4, "POTE", "Power of the Elements", 40.00m },
+                    { 104, "24 booster i boxen", 1, 3, 5, "POTE", "Power of the Elements", 500.00m },
+                    { 105, "9 kort i pakken", 1, 2, 6, "PHHY", "Photon hypernova", 40.00m },
+                    { 106, "24 booster i boxen", 1, 3, 7, "PHHY", "Photon hypernova", 500.00m },
+                    { 107, "9 kort i pakken", 1, 2, 8, "DABL", "Darkwing blast", 40.00m },
+                    { 108, "24 booster i boxen", 1, 3, 9, "DABL", "Darkwing blast", 500.00m },
+                    { 109, "5 ultra kort i pakken", 1, 2, 10, "MAMA", "Magnificent mavens", 35.00m },
+                    { 110, "4 booster pack og 60 sleevs i boxen", 1, 3, 11, "MAMA", "Magnificent mavens", 150.00m }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",

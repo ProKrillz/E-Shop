@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace DataLayer.Entities;
@@ -22,7 +24,7 @@ public class Product
     public int Fk_BrandId { get; set; }
     public Brand? Brand { get; set; }
 
-    public int Fk_ImageId { get; set; }
+    public int? Fk_ImageId { get; set; }
     public Image? Image { get; set; }
 
     public int Fk_CategoryId { get; set; }

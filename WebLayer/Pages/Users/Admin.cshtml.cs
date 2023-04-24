@@ -89,6 +89,6 @@ public class AdminModel : PageModel
         Product foundProduct = await _productService.FindByIdAsync(ProductId);
         _productService.Delete(foundProduct);
         await _productService.CommitAsync();
-        return RedirectToPage("User/Admin");
+        return RedirectToPage("Users/Admin");
     }
 }

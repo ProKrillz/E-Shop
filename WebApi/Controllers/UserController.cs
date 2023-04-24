@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.I_R;
+using WebApi.Modales;
 
 namespace WebApi.Controllers
 {
@@ -31,10 +32,40 @@ namespace WebApi.Controllers
         /// <param name="password"></param>
         /// <returns></returns>
         [HttpGet("{email}/{password}", Name = "Login")]
-        public async Task<ActionResult<User>> Login(string email, string password)
+        public ActionResult<User> Login(string email, string password)
+            => _userService.Login(email, password);
+        /// <summary>
+        /// Create user
+        /// </summary>
+        /// <param name="userModel"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /User
+        ///     {
+        ///         "firstname": "test",
+        ///         "lastname": "test",
+        ///         "email": "email@email.dk",
+        ///         "password": "linkin",
+        ///         "address": "test",
+        ///         "zipcode": 6200  
+        ///     }
+        /// </remarks>
+        [HttpPost(Name = "CreateUser")]
+        public async Task<ActionResult> CreateUser(UserModel userModel)
         {
-            return _userService.Login(email, password);
+            User user = new User() { 
+                FirstName = userModel.Firstname,
+                Lastname = userModel.Lastname,
+                Email = userModel.Email,
+                Password = userModel.Password,
+                Address = userModel.Address,
+                Fk_ZipCodeId = userModel.ZipCode,
+            };
+            await _userService.AddItemAsync(user);
+            await _userService.CommitAsync();
+            return CreatedAtRoute("GetUserByGuid", new { id = user.UserId }, user);
         }
-        
     }
 }

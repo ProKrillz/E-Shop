@@ -13,5 +13,7 @@ public class RepositoryOrdre : RepositroyBase<Ordre>, IOrdre
         => _coreContext.Payment.ToList();
     
     public List<Delivery> GetDeliveries()      
-        => _coreContext.Delivery.ToList();      
+        => _coreContext.Delivery.ToList();  
+    
+  
 }

@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEshop", "TestEshop\Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLayer", "WebLayer\WebLayer.csproj", "{B5967BA3-C0D2-40D8-9BD9-5006A86B3746}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{B54E7C16-E3B3-49ED-839F-FD0BF8FF1038}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{B54E7C16-E3B3-49ED-839F-FD0BF8FF1038}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KrillzCardz", "KrillzCardz\KrillzCardz.csproj", "{3CF6AD4A-6333-4872-9D5A-6CBD7E3EAF2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{B54E7C16-E3B3-49ED-839F-FD0BF8FF1038}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B54E7C16-E3B3-49ED-839F-FD0BF8FF1038}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B54E7C16-E3B3-49ED-839F-FD0BF8FF1038}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CF6AD4A-6333-4872-9D5A-6CBD7E3EAF2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CF6AD4A-6333-4872-9D5A-6CBD7E3EAF2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CF6AD4A-6333-4872-9D5A-6CBD7E3EAF2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CF6AD4A-6333-4872-9D5A-6CBD7E3EAF2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

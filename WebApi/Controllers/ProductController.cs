@@ -1,8 +1,11 @@
 ﻿using DataLayer.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.DTO;
+using ServiceLayer.Mapping;
 using ServiceLayer.I_R;
 using WebApi.Modales;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Controllers
 {
@@ -21,12 +24,20 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id}", Name = "GetProductById")]
-        public async Task<ActionResult<Product>> GetProductById(int id)
-            => await _productService.FindByIdAsync(id);
+        [HttpGet("{id:int}", Name = "GetProductById")]
+        public ActionResult<ProductDTO> GetProductById(int id)
+        {
+            Product? product = _productService.FindAll(p => p.ProductId == id)
+                .Include(p => p.Image)
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .Include(p => p.Set)
+                .FirstOrDefault();
+            return product.MappingProductToProductDTO();
+        }
         
         /// <summary>
-        /// Find all products
+        /// Find all products / maby remove?
         /// </summary>
         /// <returns></returns>
         [HttpGet(Name = "GetProducts")]
@@ -39,9 +50,13 @@ namespace WebApi.Controllers
         /// <param name="currentPage"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        [HttpGet("{currentPage}/{pageSize}", Name = "GetProductsPageing")]
-        public IQueryable<Product> GetProductsPageing(int currentPage, int pageSize)     
-            => _productService.FindAllPage(_productService.FindAll(), currentPage, pageSize);
+        [HttpGet("{currentPage:int}/{pageSize:int}", Name = "GetProductsPageing")]
+        public IQueryable<ProductDTO> GetProductsPageing(int currentPage, int pageSize)     
+            => _productService.FindAllPage(_productService.FindAll().Include(p => p.Image)
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .Include(p => p.Set)
+                , currentPage, pageSize).MappingProductToProductDTO();
         
         /// <summary>
         /// Create product
@@ -66,20 +81,11 @@ namespace WebApi.Controllers
         [HttpPost(Name = "CreateProduct")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> CreateProduct(ProductModel productModel)
+        public async Task<ActionResult> CreateProduct(ProductCreateDTO productModel)
         {
-            Product product = new Product()
-            {
-                Name = productModel.Name,
-                Description = productModel.Description,
-                Price = productModel.Price,
-                Fk_SetId = productModel.SetId,
-                Fk_BrandId = productModel.BrandId,
-                Fk_CategoryId = productModel.CatId,
-            };
-            await _productService.AddItemAsync(product);
+            await _productService.AddItemAsync(productModel.MappingProductDTOToProduct());
             await _productService.CommitAsync();
-            return CreatedAtRoute("GetProductById", new { id = product.ProductId}, product);
+            return Ok();
         }
         /// <summary>
         /// Remove product from database
@@ -103,21 +109,11 @@ namespace WebApi.Controllers
         [HttpDelete(Name = "DeleteProduct")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> DeleteProduct(ProductModel productModel)
+        public async Task<IActionResult> DeleteProduct(ProductCreateDTO productModel)
         {
-            Product product = new Product()
-            {
-                ProductId = productModel.Id,
-                Name = productModel.Name,
-                Description = productModel.Description,
-                Price = productModel.Price,
-                Fk_SetId = productModel.SetId,
-                Fk_BrandId = productModel.BrandId,
-                Fk_CategoryId = productModel.CatId,
-            };
-            _productService.Delete(product);
+            _productService.Delete(productModel.MappingProductDTOToProduct());
             await _productService.CommitAsync();
-            return CreatedAtRoute("GetProductById", new { id = product.ProductId }, product);
+            return Ok();
         }
         /// <summary>
         /// Update Product with Put
@@ -141,22 +137,26 @@ namespace WebApi.Controllers
         [HttpPut(Name = "UpdateProduct")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateProductPut(ProductModel productModel)
+        public async Task<IActionResult> UpdateProductPut(ProductCreateDTO productModel)
         {
-            Product product = new Product()
-            {
-                ProductId = productModel.Id,
-                Name = productModel.Name,
-                Description = productModel.Description,
-                Price = productModel.Price,
-                Fk_SetId = productModel.SetId,
-                Fk_BrandId = productModel.BrandId,
-                Fk_CategoryId = productModel.CatId,
-            };
-            await _productService.UpdateItemAsync(product);
+            await _productService.UpdateItemAsync(productModel.MappingProductDTOToProduct());
             await _productService.CommitAsync();
-            return CreatedAtRoute("GetProductById", new { id = product.ProductId }, product);
+            return Ok();
         }
-
+        /// <summary>
+        /// Search all product with contains
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <returns></returns>
+        [HttpGet("searchText")]
+        public IQueryable<ProductDTO> SearchProduct(string searchText)
+        {
+            return _productService.FindAll().Where(p => p.Name.Contains(searchText))
+                .Include(p => p.Image)
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
+                .Include(p => p.Set)
+                .MappingProductToProductDTO();
+        }
     }
 }

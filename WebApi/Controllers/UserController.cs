@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.I_R;
+using ServiceLayer.Mapping;
+using ServiceLayer.DTO;
 using WebApi.Modales;
 
 namespace WebApi.Controllers
@@ -21,10 +23,15 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id}", Name = "GetUserByGuid")]
-        public async Task<ActionResult<User>> GetUserByGuid(string id)    
-            => await _userService.GetUserByGuidAsync(Guid.Parse(id));
+        [HttpGet("{id:guid}", Name = "GetUserByGuid")]
+        public async Task<ActionResult<UserDTO>> GetUserByGuid(Guid id)
+        {
+            User foundUser = await _userService.GetUserByGuidAsync(id);
+            if (foundUser != null)
+                return foundUser.MappingUserToUserDTO();
 
+            return NotFound();
+        }
         /// <summary>
         /// Login for user
         /// </summary>
@@ -53,19 +60,16 @@ namespace WebApi.Controllers
         ///     }
         /// </remarks>
         [HttpPost(Name = "CreateUser")]
-        public async Task<ActionResult> CreateUser(UserModel userModel)
+        public async Task<ActionResult> CreateUser(UserDTO userModel)
         {
-            User user = new User() { 
-                FirstName = userModel.Firstname,
-                Lastname = userModel.Lastname,
-                Email = userModel.Email,
-                Password = userModel.Password,
-                Address = userModel.Address,
-                Fk_ZipCodeId = userModel.ZipCode,
-            };
-            await _userService.AddItemAsync(user);
+            await _userService.AddItemAsync(userModel.MappingUserDTOToUser());
             await _userService.CommitAsync();
-            return CreatedAtRoute("GetUserByGuid", new { id = user.UserId }, user);
+            return Ok();
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(UserDTO user)
+        {
+            return Ok();
         }
     }
 }

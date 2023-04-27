@@ -10,5 +10,7 @@ public class ProductDTO
     public decimal Price { get; set; }
     public string? Brand { get; set; }
     public string? ImagePath { get; set; }
-    public Category? Category { get; set; }
+    public string? Category { get; set; }
+    public string? Set { get; set; }
+    public DateTime? Release { get; set; }
 }

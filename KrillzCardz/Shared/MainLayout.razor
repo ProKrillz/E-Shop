@@ -1,9 +1,68 @@
 ﻿@inherits LayoutComponentBase
+@inject IJSRuntime Js
 
 <div class="page">
-    <main>      
-        <article class="">
+    <header>
+        <nav class="cyan darken-3" role="navigation">
+            <div class="nav-wrapper container ">
+                <ul class="left">
+                    <a class="brand-logo white-text">Krillz Cardz</a>
+                </ul>
+                <ul class="right">
+                    <a class="waves-effect btn black white-text" asp-page="/Products/Cart">
+                        <i class="material-icons left">shopping_cart</i>Indkøbskurv
+                    </a>
+                </ul>
+                <ul class="right">
+                    <li>Login</li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <article>
             @Body
         </article>
     </main>
+
+    <footer class="page-footer cyan darken-3">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Kontakt</h5>
+                    <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+                </div>
+                <div class="col l3 s12">
+                    <h5 class="white-text">Settings</h5>
+                    <ul>
+                        <li><a class="white-text" href="#!">Link 1</a></li>
+                        <li><a class="white-text" href="#!">Link 2</a></li>
+                        <li><a class="white-text" href="#!">Link 3</a></li>
+                        <li><a class="white-text" href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+                <div class="col l3 s12">
+                    <h5 class="white-text">Connect</h5>
+                    <ul>
+                        <li><a class="white-text" href="#!">Link 1</a></li>
+                        <li><a class="white-text" href="#!">Link 2</a></li>
+                        <li><a class="white-text" href="#!">Link 3</a></li>
+                        <li><a class="white-text" href="#!">Link 4</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+            </div>
+        </div>
+    </footer>
 </div>
+@code{
+    protected override async Task OnInitializedAsync()                       
+    {
+        await Js.InvokeVoidAsync("load");
+    }
+}

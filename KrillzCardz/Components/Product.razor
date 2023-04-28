@@ -1,0 +1,30 @@
+﻿@using KrillzCardz.Services.DTO;
+
+<div class="card hoverable sticky-action col s12 l3">
+    <div class="card-image waves-effect waves-block waves-light">
+        <img class="activator" src="@product.imagePath" style="height: 250px;">
+    </div>
+    <div class="card-content">
+        <span class=" activator grey-text text-darken-4">@product.name</span>
+        <p class="red-text">@product.price Kr.</p>
+    </div>
+    <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">@product.name<i class="material-icons right">close</i></span>
+        <p>@product.description</p>
+        <p>Set: @product.set</p>
+        <p>@product.category</p>
+    </div>
+    <form method="post">
+        <input hidden asp-for="@product.productId" value="@product.productId" />
+        <div class="input-field">
+            <input id="first_name" type="text" class="validate">
+            <label for="first_name">Antal</label>
+        </div>
+        <div class="card-action">
+            <button class="waves-effect btn black white-text">I kurv</button>
+        </div>
+    </form>
+</div>
+@code {
+    [Parameter] public ProductModel? product { get; set; } = new();
+}

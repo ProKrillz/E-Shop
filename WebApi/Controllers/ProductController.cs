@@ -51,12 +51,12 @@ namespace WebApi.Controllers
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet("{currentPage:int}/{pageSize:int}", Name = "GetProductsPageing")]
-        public IQueryable<ProductDTO> GetProductsPageing(int currentPage, int pageSize)     
+        public List<ProductDTO> GetProductsPageing(int currentPage, int pageSize)     
             => _productService.FindAllPage(_productService.FindAll().Include(p => p.Image)
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
                 .Include(p => p.Set)
-                , currentPage, pageSize).MappingProductToProductDTO();
+                , currentPage, pageSize).MappingProductToProductDTO().ToList();
         
         /// <summary>
         /// Create product

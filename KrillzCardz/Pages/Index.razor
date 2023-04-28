@@ -1,4 +1,8 @@
 ﻿@page "/"
+@using KrillzCardz.Services;
+@using KrillzCardz.Services.DTO;
+@inject IProduct _productService;
+@inject IJSRuntime JS
 
 <div id="index-banner" class="parallax-container z-depth-5">
     <div class="parallax"><img src="./image/banner/banner1.jpg" alt="Unsplashed background img 1"></div>
@@ -82,6 +86,10 @@
                 <h3><i class="mdi-content-send brown-text"></i></h3>
                 <a >
                     <h4>Produkter</h4>
+                    @foreach (var item in products)
+                    {
+                        <KrillzCardz.Components.Product product="item"> </KrillzCardz.Components.Product>
+                    }
                 </a>
                 <div class="row">
             
@@ -102,5 +110,13 @@
     </div>
     <div class="parallax"><img src="./image/banner/banner3.jpg" alt="Unsplashed background img 3"></div>
 </div>
+@code{
+    private List<ProductModel> products = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        products = await _productService.GetProductWithPageing(1, 3);
+
+    }
+}
 

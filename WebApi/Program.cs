@@ -14,6 +14,15 @@ builder.Services.AddScoped<IProduct, RepositoryProduct>();
 builder.Services.AddScoped<IUser, RepositoryUser>();
 builder.Services.AddScoped<IOrdre, RepositoryOrdre>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+}); ;
 
 builder.Services.AddControllers()
                 .AddJsonOptions(x =>
@@ -61,6 +70,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 

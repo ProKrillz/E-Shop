@@ -1,6 +1,4 @@
-﻿using DataLayer.Entities;
-
-namespace ServiceLayer.DTO;
+﻿namespace ServiceLayer.DTO;
 
 public class ProductDTO
 {

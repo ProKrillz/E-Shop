@@ -30,4 +30,5 @@ public class RepositoryProduct : RepositroyBase<Product>, IProduct
     }
     public async Task CreateCategoryAsync(string name)
         => await _coreContext.Category.AddAsync(new Category() { Name = name});
+
 }

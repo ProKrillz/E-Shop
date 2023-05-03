@@ -1,0 +1,96 @@
+﻿@page "/products";
+@using KrillzCardz.Services;
+@using KrillzCardz.Services.DTO;
+@inject IProduct _productService;
+@inject IJSRuntime JS;
+
+<div class="container">
+    <div class="row">
+        <h3 class="center">Produkter</h3>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s6">
+            <input id="last_name" type="text" class="validate" @onchange="Search" >
+            <label for="last_name">Søg</label>
+        </div>
+        <div class="col s1 input-field">
+            <select @onchange="Pages">
+                <option value="9" >9</option>
+                <option value="18">18</option>
+            </select>
+            <label>Antal produkter</label>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        @foreach (var item in products)
+        {
+            <KrillzCardz.Components.Product product="item"> </KrillzCardz.Components.Product>
+        }
+    </div>
+
+    <div class=" row">
+        <ul class="pagination center">
+            <li class=@(currentPage == 1 ? "disabled" : "waves-effect")><a @onclick="PreviousPage"><i class="material-icons">chevron_left</i></a></li>
+            @for (var i = 1; i <= totalPages; i++)
+            {
+                <li class="@(i == currentPage ? "active" : "")"><a>@i</a></li>
+            }
+            <li class=@(totalPages == currentPage ? "disabled" : "waves-effect")><a @onclick="NextPage"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+    </div>
+</div>
+
+@code {
+    private List<ProductModel> products = new();
+
+    private int currentPage = 1;
+
+    private int pages = 9;
+
+    private int count;
+
+    private int totalPages => (int)Math.Ceiling(decimal.Divide(count, pages));
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await _productService.GetProductWithPageing(currentPage, pages);
+        count = await _productService.CountProducts();
+        await JS.InvokeVoidAsync("loadSelect");
+    }
+    private async Task NextPage()
+    {
+        products = await _productService.GetProductWithPageing(++currentPage, pages);
+    }
+    private async Task PreviousPage()
+    {
+        products = await _productService.GetProductWithPageing(--currentPage, pages);
+    }
+    private async Task Pages(ChangeEventArgs eventarg)
+    {
+        pages = Convert.ToInt32(eventarg.Value);
+        products = await _productService.GetProductWithPageing(currentPage, pages);
+        StateHasChanged();
+    }
+    private async Task OrdreBy(ChangeEventArgs eventarg)
+    {
+
+    }
+    private async Task Search(ChangeEventArgs changeEvent)
+    {
+        if (!string.IsNullOrEmpty(changeEvent.Value.ToString()))
+        {
+            ProductPase data = await _productService.SearchProducts(changeEvent.Value.ToString(), currentPage, pages);
+            count = data.productcount;
+            products = data.ProductModels;
+            StateHasChanged();
+        }
+        else
+        {
+            products = await _productService.GetProductWithPageing(currentPage, pages);
+            count = await _productService.CountProducts();
+        }
+    }
+}

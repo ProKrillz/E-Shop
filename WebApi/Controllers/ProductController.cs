@@ -148,15 +148,29 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="searchText"></param>
         /// <returns></returns>
-        [HttpGet("searchText")]
-        public IQueryable<ProductDTO> SearchProduct(string searchText)
+        [HttpGet, Route("/Product/search/{searchText}/{currentPage:int}/{pageSize:int}")]
+        public IQueryable<ProductDTO> SearchProduct(string searchText, int currentPage, int pageSize)
         {
-            return _productService.FindAll().Where(p => p.Name.Contains(searchText))
+             var items = _productService.FindAllPage(_productService.FindAll().Where(p => p.Name.Contains(searchText))
                 .Include(p => p.Image)
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
-                .Include(p => p.Set)
-                .MappingProductToProductDTO();
+                .Include(p => p.Set), currentPage, pageSize).MappingProductToProductDTO();
+
+            HttpContext.Response.Headers.Add("x-product-count", items.Count().ToString()); //husk kebab
+
+            return items;
         }
+        [HttpGet, Route("/count")]
+        public int CountProduct()
+        {
+            return _productService.FindAll().Count();
+        }
+        [HttpGet, Route("/product/count/{text}")]
+        public int CountProductSearch(string text)
+        {
+            return _productService.FindAll().Where(x => x.Name.Contains(text)).Count();
+        }
+     
     }
 }

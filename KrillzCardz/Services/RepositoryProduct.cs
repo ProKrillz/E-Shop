@@ -1,4 +1,5 @@
 ﻿using KrillzCardz.Services.DTO;
+using System.Collections.Immutable;
 using System.Net.Http.Json;
 
 namespace KrillzCardz.Services;
@@ -11,7 +12,20 @@ public class RepositoryProduct : IProduct
         _HttpClient = httpClient;
     }
     public async Task<List<ProductModel>> GetProductWithPageing(int currentPage, int pageSize)
-    { 
+    {
         return await _HttpClient.GetFromJsonAsync<List<ProductModel>>($"api/Product/{currentPage}/{pageSize}") ?? new();
+    }
+    public async Task<int> CountProducts()
+    {
+        string item = await _HttpClient.GetStringAsync("count");
+        return Convert.ToInt32(item);
+    }
+    public async Task<ProductPase> SearchProducts(string text, int currentPage, int pageSize)
+    {
+        var response = await _HttpClient.GetAsync($"Product/search/{text}/{currentPage}/{pageSize}");
+        ProductPase pase = new ProductPase();
+        pase.productcount = Convert.ToInt32( await _HttpClient.GetStringAsync($"product/count/{text}"));
+        pase.ProductModels = await response.Content.ReadFromJsonAsync<List<ProductModel>>();
+        return pase;
     }
 }

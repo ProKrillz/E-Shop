@@ -2,7 +2,7 @@
 @using KrillzCardz.Services;
 @using KrillzCardz.Services.DTO;
 @inject IProduct _productService;
-@inject IJSRuntime JS
+@inject IJSRuntime JS;
 
 <div id="index-banner" class="parallax-container z-depth-5">
     <div class="parallax"><img src="./image/banner/banner1.jpg" alt="Unsplashed background img 1"></div>
@@ -58,7 +58,6 @@
                 <div class="icon-block">
                     <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
                     <h5 class="center">Booster box</h5>
-
                     <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
                 </div>
             </div>
@@ -80,25 +79,24 @@
 
 <div class="container">
     <div class="section">
-
         <div class="row">
             <div class="col s12 center">
                 <h3><i class="mdi-content-send brown-text"></i></h3>
-                <a >
-                    <h4>Produkter</h4>
+                <a>
+                    <NavLink href="products">
+                        <h4>Produkter</h4>
+                    </NavLink>
                     @foreach (var item in products)
                     {
                         <KrillzCardz.Components.Product product="item"> </KrillzCardz.Components.Product>
                     }
                 </a>
                 <div class="row">
-            
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 
 <div class="parallax-container valign-wrapper">
     <div class="section no-pad-bot">
@@ -110,13 +108,14 @@
     </div>
     <div class="parallax"><img src="./image/banner/banner3.jpg" alt="Unsplashed background img 3"></div>
 </div>
-@code{
+
+@code {
     private List<ProductModel> products = new();
 
     protected override async Task OnInitializedAsync()
     {
         products = await _productService.GetProductWithPageing(1, 3);
-
     }
+
 }
 

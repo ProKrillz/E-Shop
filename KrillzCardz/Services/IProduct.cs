@@ -5,5 +5,7 @@ namespace KrillzCardz.Services
     public interface IProduct
     {
         Task<List<ProductModel>> GetProductWithPageing(int currentPage, int pageSize);
+        Task<int> CountProducts();
+        Task<ProductPase> SearchProducts(string text, int currentPage, int pageSize);
     }
 }

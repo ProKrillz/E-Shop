@@ -112,6 +112,8 @@
 @code {
     private List<ProductModel> products = new();
 
+    
+
     protected override async Task OnInitializedAsync()
     {
         products = await _productService.GetProductWithPageing(1, 3);

@@ -1,5 +1,7 @@
-﻿@inherits LayoutComponentBase
+﻿@using KrillzCardz.Components;
+@inherits LayoutComponentBase
 @inject IJSRuntime Js
+@inject IModalService Modal
 
 <div class="page">
     <header>
@@ -9,12 +11,12 @@
                     <a class="brand-logo white-text" href="/">Krillz Cardz</a>
                 </ul>
                 <ul class="right">
-                    <a class="waves-effect btn black white-text" asp-page="/Products/Cart">
+                    <a class="waves-effect btn black white-text" >
                         <i class="material-icons left">shopping_cart</i>Indkøbskurv
                     </a>
                 </ul>
                 <ul class="right">
-                    <li>Login</li>
+                    <li @onclick="@(() => Modal.Show<Login>("Loign"))">Login</li>
                 </ul>
             </div>
         </nav>
@@ -60,7 +62,10 @@
         </div>
     </footer>
 </div>
+
 @code{
+
+
     protected override async Task OnInitializedAsync()                       
     {
         await Js.InvokeVoidAsync("load");

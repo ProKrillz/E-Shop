@@ -28,4 +28,19 @@ public class RepositoryProduct : IProduct
         pase.ProductModels = await response.Content.ReadFromJsonAsync<List<ProductModel>>();
         return pase;
     }
+    public async Task CreateProduct(ProductModel product)
+    {
+        // test efter modal
+        await _HttpClient.PostAsJsonAsync($"createProduct/{product}", product);
+    }
+    public async Task UpdateProduct(ProductModel product)
+    {
+        // test efter modal om /{product} skal med
+        await _HttpClient.PutAsJsonAsync($"updateProduct/{product}", product);
+    }
+    public async Task DeleteProduct(ProductModel product)
+    {
+        //test om virker efter modal
+        await _HttpClient.DeleteAsync($"delete/{product}");
+    }
 }

@@ -1,0 +1,90 @@
+﻿@page "/admin";
+@using KrillzCardz.Components;
+@using KrillzCardz.Services;
+@using KrillzCardz.Services.DTO;
+@inject IProduct _productService;
+
+<div class="container">
+    <br />
+    <div class="row">
+        <button class="waves-effect waves-light btn view col l2 right" @onclick="@(() => Modal.Show<CreateProduct>("Create Product"))">Opret Product</button>
+    </div>
+    <br />
+    <table class="striped highlight">
+        <thead>
+            <tr>
+                <th>Titel</th>
+                <th>Beskrivelse</th>
+                <th>Pris</th>
+                <th>Brand</th>
+                <th>Kategori</th>
+                <th>Set</th>
+                <th>Rediger</th>
+                <th>Slet</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in products)
+            {
+                <tr>
+                    <th>@item.name</th>
+                    <th>@item.description</th>
+                    <th>@item.price</th>
+                    <th>@item.brand</th>
+                    <th>@item.category</th>
+                    <th>@item.set</th>
+                    <th>
+                        <a class="btn waves-effect waves-light yellow darken-1">
+                            <i class="material-icons">edit</i>
+                        </a>
+                    </th>
+                    <th>
+                        <button class="btn waves-effect waves-light red darken-1" type="submit" name="action">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class=" row">
+        <ul class="pagination center">
+            <li class=@(currentPage == 1 ? "disabled" : "waves-effect")><a @onclick="PreviousPage"><i class="material-icons">chevron_left</i></a></li>
+            @for (var i = 1; i <= totalPages; i++)
+            {
+                <li class="@(i == currentPage ? "active" : "")"><a>@i</a></li>
+            }
+            <li class=@(totalPages == currentPage ? "disabled" : "waves-effect")><a @onclick="NextPage"><i class="material-icons">chevron_right</i></a></li>
+        </ul>
+    </div>
+
+
+
+</div>
+@code {
+    private List<ProductModel> products = new();
+
+    private int currentPage = 1;
+
+    private int pages = 9;
+
+    private int count;
+
+    private int totalPages => (int)Math.Ceiling(decimal.Divide(count, pages));
+
+    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await _productService.GetProductWithPageing(currentPage, pages);
+        count = await _productService.CountProducts();
+    }
+    private async Task NextPage()
+    {
+        products = await _productService.GetProductWithPageing(++currentPage, pages);
+    }
+    private async Task PreviousPage()
+    {
+        products = await _productService.GetProductWithPageing(--currentPage, pages);
+    }
+}

@@ -6,6 +6,7 @@ using ServiceLayer.Mapping;
 using ServiceLayer.I_R;
 using WebApi.Modales;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 
 namespace WebApi.Controllers
 {
@@ -78,7 +79,7 @@ namespace WebApi.Controllers
         /// </remarks>
         /// <response code="201">Returns the newly created item</response>
         /// <response code="400">If the item is null</response>
-        [HttpPost(Name = "CreateProduct")]
+        [HttpPost(Name = "CreateProduct"), Route("createProduct/{productModel}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> CreateProduct(ProductCreateDTO productModel)
@@ -106,7 +107,7 @@ namespace WebApi.Controllers
         ///         "brandId": 1  
         ///     }
         /// </remarks>
-        [HttpDelete(Name = "DeleteProduct")]
+        [HttpDelete(Name = "DeleteProduct"), Route("delete/{productModel}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> DeleteProduct(ProductCreateDTO productModel)
@@ -134,7 +135,7 @@ namespace WebApi.Controllers
         ///         "brandId": 1  
         ///     }
         /// </remarks>
-        [HttpPut(Name = "UpdateProduct")]
+        [HttpPut(Name = "UpdateProduct"), Route("updateProduct/{productModel}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateProductPut(ProductCreateDTO productModel)

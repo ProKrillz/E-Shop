@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<EfCoreContext>(o => o.UseSqlServer(config.GetConnectionString("SqlConnectionString")));
+builder.Services.AddDbContext<EfCoreContext>(o => o.UseSqlServer(config.GetConnectionString("Home")));
 builder.Services.AddScoped<IProduct, RepositoryProduct>();
 builder.Services.AddScoped<IUser, RepositoryUser>();
 builder.Services.AddScoped<IOrdre, RepositoryOrdre>();

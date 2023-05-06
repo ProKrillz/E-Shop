@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<EfCoreContext>(o => o.UseSqlServer(config.GetConnectionString("Home")));
+builder.Services.AddDbContext<EfCoreContext>(o => o.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Database=Eshop;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"));
 builder.Services.AddScoped<IProduct, RepositoryProduct>();
 builder.Services.AddScoped<IUser, RepositoryUser>();
 builder.Services.AddScoped<IOrdre, RepositoryOrdre>();

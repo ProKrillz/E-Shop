@@ -172,6 +172,11 @@ namespace WebApi.Controllers
         {
             return _productService.FindAll().Where(x => x.Name.Contains(text)).Count();
         }
+        [HttpGet, Route("/sets")]
+        public async Task<List<SetDTO>> GetAllSets()
+        {
+            return await _productService.GetAllSetsAsync();
+        }
      
     }
 }

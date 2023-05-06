@@ -40,7 +40,7 @@ public class UpdateProductModel : PageModel
             Product = await _productService.GetProductByIdAsync(ProductId);
             List<Category> catagoriesTypeModels = await _productService.GetAllCategories();
             List<Brand> brandTypeModels = await _productService.GetAllBrandsAsync();
-            List<Set> setTypeModels = await _productService.GetAllSetsAsync();
+            List<SetDTO> setTypeModels = await _productService.GetAllSetsAsync();
             Catagories = catagoriesTypeModels.Select(ctm => new SelectListItem
             {
                 Value = ctm.CategoryId.ToString(),

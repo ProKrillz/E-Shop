@@ -1,4 +1,3 @@
-using Blazored.Modal;
 using KrillzCardz;
 using KrillzCardz.Services;
 using Microsoft.AspNetCore.Components.Web;
@@ -10,7 +9,5 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped<IProduct, RepositoryProduct>();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7219") });
-
-builder.Services.AddBlazoredModal();
 
 await builder.Build().RunAsync();

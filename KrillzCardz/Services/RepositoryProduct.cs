@@ -31,7 +31,7 @@ public class RepositoryProduct : IProduct
     public async Task CreateProduct(ProductModel product)
     {
         // test efter modal
-        await _HttpClient.PostAsJsonAsync($"createProduct/{product}", product);
+        await _HttpClient.PostAsJsonAsync($"createProduct/", product);
     }
     public async Task UpdateProduct(ProductModel product)
     {
@@ -42,5 +42,9 @@ public class RepositoryProduct : IProduct
     {
         //test om virker efter modal
         await _HttpClient.DeleteAsync($"delete/{product}");
+    }
+    public async Task<List<SetModel>> GetAllSets()
+    {
+        return await _HttpClient.GetFromJsonAsync<List<SetModel>>("sets");
     }
 }

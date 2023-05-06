@@ -38,7 +38,7 @@ public class AdminModel : PageModel
     {
         List<Category> catagoriesTypeModels = await _productService.GetAllCategories();
         List<Brand> brandTypeModels = await _productService.GetAllBrandsAsync();
-        List<Set> setTypeModels = await _productService.GetAllSetsAsync();
+        //List<Set> setTypeModels = await _productService.GetAllSetsAsync();
         Catagories = catagoriesTypeModels.Select(ctm => new SelectListItem
         {
             Value = ctm.CategoryId.ToString(),
@@ -49,11 +49,11 @@ public class AdminModel : PageModel
             Value = b.BrandId.ToString(),
             Text = b.Name.ToString()
         }).ToList();
-        Sets = setTypeModels.Select(s => new SelectListItem
-        {
-            Value = s.SetId.ToString(),
-            Text = s.SetName.ToString()
-        }).ToList();
+        //Sets = setTypeModels.Select(s => new SelectListItem
+        //{
+        //    Value = s.SetId.ToString(),
+        //    Text = s.SetName.ToString()
+        //}).ToList();
         if (!string.IsNullOrEmpty(SearchString))
         {
             Products = _productService.FindAllPage(_productService.FindAll().Where(s => s.Name.Contains(SearchString)).Include(p => p.Image).Include(p => p.Brand).Include(p => p.Category), 1, 9);

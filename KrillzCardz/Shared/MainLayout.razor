@@ -1,7 +1,6 @@
 ﻿@using KrillzCardz.Components;
 @inherits LayoutComponentBase
 @inject IJSRuntime Js
-@inject IModalService Modal
 
 <div class="page">
     <header>
@@ -16,7 +15,7 @@
                     </a>
                 </ul>
                 <ul class="right">
-                    <li @onclick="@(() => Modal.Show<Login>("Loign"))">Login</li>
+                    <li>Login</li>
                 </ul>
             </div>
         </nav>
@@ -65,9 +64,9 @@
 
 @code{
 
-
     protected override async Task OnInitializedAsync()                       
     {
         await Js.InvokeVoidAsync("load");
     }
+
 }

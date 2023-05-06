@@ -10,7 +10,6 @@
     <link href="manifest.json" rel="manifest" />
     <link href="css/style.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
-    <link href="KrillzCardz/Blazored.Modal/blazored-modal.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -28,13 +27,15 @@
     <script src="js/init.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
     <script src="_framework/blazor.webassembly.js"></script>
-    <script src="KrillzCardz/Blazored.Modal/blazored-modal.js"></script>
     <script>
         function load() {
             $('.parallax').parallax();  
         }
         function loadSelect() {
             $('select').formSelect();
+        }
+        function modalM() {
+            $('#modal1').modal();
         }
     </script>
 </body>

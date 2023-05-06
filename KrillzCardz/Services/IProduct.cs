@@ -10,4 +10,5 @@ public interface IProduct
     Task CreateProduct(ProductModel product);
     Task UpdateProduct(ProductModel product);
     Task DeleteProduct(ProductModel product);
+    Task<List<SetModel>> GetAllSets();
 }

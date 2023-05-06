@@ -1,13 +1,15 @@
 ﻿@page "/admin";
+@using System.IO;
 @using KrillzCardz.Components;
 @using KrillzCardz.Services;
 @using KrillzCardz.Services.DTO;
 @inject IProduct _productService;
+@inject IJSRuntime js;
 
 <div class="container">
     <br />
     <div class="row">
-        <button class="waves-effect waves-light btn view col l2 right" @onclick="@(() => Modal.Show<CreateProduct>("Create Product"))">Opret Product</button>
+        <button class="waves-effect waves-light btn view col l2 right" onclick="$('#modal1').modal('open')">Opret Product</button>
     </div>
     <br />
     <table class="striped highlight">
@@ -58,11 +60,90 @@
         </ul>
     </div>
 
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <div class="row">
+                <h4 class="col">Opret product</h4>
+                <a href="" class="modal-close waves-effect waves-green btn-flat right col">Luk</a>
+            </div>
+            <div class="col s12" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">title</i>
+                        <input id="icon_prefix" type="text" class="validate" @bind="creatProduct.name">
+                        <label for="icon_prefix">Title</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">description</i>
+                        <input id="icon_lastname" type="text" class="validate" @bind="creatProduct.description">
+                        <label for="icon_lastname">Beskrivelse</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="material-icons prefix">attach_money</i>
+                        <input id="icon_add" type="number" class="validate" @bind="creatProduct.price">
+                        <label for="icon_add">Pris</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select @onchange="ChangeSet" required>
+                           @* @foreach (var item in sets)
+                            {
+                                <option value="@item.setid">@item.setname</option>
+                            }*@
+                            <option value="BLCR">Battle of legend: Crystal revenge</option>
+                            <option value="CYAC">Cyberstorm access</option>
+                            <option value="DABL">Darkwing blast</option>
+                            <option value="MAMA">Magnificent mavens</option>
+                            <option value="PHHY">Photon hypernova</option>
+                            <option value="POTE">Power of the Elements</option>
+                           
+                        </select>
+                        <label>Set</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <select @onchange="ChangeBrand" required>
+                            <option value="Konami">Konami</option>
+                        </select>
+                        <label>Brand</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <select @onchange="ChangeCat" required>
+                            <option value="">Single</option>
+                            <option value="">Booster</option>
+                            <option value="">Box</option>
+                        </select>
+                        <label>Kategori</label>
+                    </div>
+                </div>
+                <div class="row">
 
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>File</span>
+                            <InputFile OnChange="ImageHandler" />
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn waves-effect waves-light" type="submit" name="action" @onclick="CreateProductSite">
+                    Opret
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </div>
+    </div>
 
 </div>
 @code {
     private List<ProductModel> products = new();
+
+    private ProductModel creatProduct = new();
+    private List<SetModel> sets = new();
 
     private int currentPage = 1;
 
@@ -72,12 +153,15 @@
 
     private int totalPages => (int)Math.Ceiling(decimal.Divide(count, pages));
 
-    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+    private IBrowserFile file;
 
     protected override async Task OnInitializedAsync()
     {
         products = await _productService.GetProductWithPageing(currentPage, pages);
         count = await _productService.CountProducts();
+        sets = await _productService.GetAllSets();
+        await js.InvokeVoidAsync("modalM");
+        await js.InvokeVoidAsync("loadSelect");
     }
     private async Task NextPage()
     {
@@ -87,4 +171,35 @@
     {
         products = await _productService.GetProductWithPageing(--currentPage, pages);
     }
+    private async Task CreateProductSite()
+    {
+        await _productService.CreateProduct(creatProduct);
+    }
+    async Task ChangeSet(ChangeEventArgs eventarg)
+    {
+        creatProduct.set = eventarg.Value.ToString();
+
+    }
+    async Task ChangeCat(ChangeEventArgs eventarg)
+    {
+        creatProduct.category = eventarg.Value.ToString();
+
+    }
+    async Task ChangeBrand(ChangeEventArgs eventarg)
+    {
+        creatProduct.brand = eventarg.Value.ToString();
+
+    }
+    async Task ImageHandler(InputFileChangeEventArgs image)
+    {
+        file = image.File;
+        var stream = file.OpenReadStream();
+        var buffer = new byte[file.Size];
+        await stream.ReadAsync(buffer, 0, (int)file.Size);
+        string rootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+        //byte[] fileBytes = await fileInputComponent.GetFileBytesAsync(); ;
+        creatProduct.imagePath = $"\\Image\\Card\\{file.Name}";
+        //File.WriteAllBytes(creatProduct.imagePath, fileBytes);
+    }
+
 }

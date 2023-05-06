@@ -75,4 +75,13 @@ public static class MappingHelper
             Fk_ZipCodeId = user.ZipCode
         };
     }
+    public static IQueryable<SetDTO> MappingSetToSetDTO(this IQueryable<Set> set)
+    {
+        return  set.Select(s => new SetDTO()
+        {
+            SetId = s.SetId,
+            SetName = s.SetName,
+            release = s.SetRealse
+        });
+    }
 }

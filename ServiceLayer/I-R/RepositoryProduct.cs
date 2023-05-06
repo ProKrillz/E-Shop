@@ -1,6 +1,8 @@
 ﻿using DataLayer;
 using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
+using ServiceLayer.DTO;
+using ServiceLayer.Mapping;
 
 namespace ServiceLayer.I_R;
 
@@ -15,9 +17,9 @@ public class RepositoryProduct : RepositroyBase<Product>, IProduct
     
     public async Task<List<Brand>> GetAllBrandsAsync()
         => await _coreContext.Brand.ToListAsync();
-    
-    public async Task<List<Set>> GetAllSetsAsync()
-        => await _coreContext.Set.ToListAsync();
+
+    public async Task<List<SetDTO>> GetAllSetsAsync()
+        => await _coreContext.Set.MappingSetToSetDTO().ToListAsync();
 
     public async Task<Product> GetProductByIdAsync(int id)
     {

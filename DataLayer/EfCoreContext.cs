@@ -319,6 +319,8 @@ public class EfCoreContext : DbContext
         modelBuilder.Entity<Set>().HasData(new Set { SetId = "BLCR", SetName = "Battle of legend: Crystal revenge", SetRealse = new DateTime(2022,11,17) });
         modelBuilder.Entity<Set>().HasData(new Set { SetId = "DABL", SetName = "Darkwing blast", SetRealse = new DateTime(2022,10,20) });
         modelBuilder.Entity<Set>().HasData(new Set { SetId = "MAMA", SetName = "Magnificent mavens", SetRealse = new DateTime(2022,11,03) });
+        modelBuilder.Entity<Set>().HasData(new Set { SetId = "CYAC", SetName = "Cyberstorm access", SetRealse = new DateTime(2023, 04, 04) });
+
     }
     private void SeedBrand(ModelBuilder modelBuilder)
     {
@@ -345,20 +347,24 @@ public class EfCoreContext : DbContext
         modelBuilder.Entity<Image>().HasData(new Image { ImageId = 9, Path = "/Image/Card/DablBox.jpg" });
         modelBuilder.Entity<Image>().HasData(new Image { ImageId = 10, Path = "/Image/Card/MamaBooster.jpg" });
         modelBuilder.Entity<Image>().HasData(new Image { ImageId = 11, Path = "/Image/Card/MamaBox.jpg" });
+        modelBuilder.Entity<Image>().HasData(new Image { ImageId = 12, Path = "/Image/Card/CyacBooster.jpg" });
+        modelBuilder.Entity<Image>().HasData(new Image { ImageId = 13, Path = "/Image/Card/CyacBox.jpg" });
+
     }
     private void SeedProduct(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 100, Name = "Destiny HERO - Destroyer Phoenix Enforcer", Description = "Starligth rare", Price = 1700.00M, Fk_BrandId = 1, Fk_SetId = "POTE", Fk_CategoryId = 1, Fk_ImageId = 1 });
-        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 101, Name = "Battle of legend: Crystal revenge", Description = "4 Ultra rare og 1 secret rare i pakken", Price = 40.00M, Fk_BrandId = 1, Fk_SetId = "BLCR", Fk_CategoryId = 2, Fk_ImageId = 2 });
-        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 102, Name = "Battle of legend: Crystal revenge", Description = "24 booster i boxen", Price = 500.00M, Fk_BrandId = 1, Fk_SetId = "BLCR", Fk_CategoryId = 3, Fk_ImageId = 3 });
-        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 103, Name = "Power of the Elements", Description = "9 kort i pakken", Price = 40.00M, Fk_BrandId = 1, Fk_SetId = "POTE", Fk_CategoryId = 2, Fk_ImageId = 4 });
-        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 104, Name = "Power of the Elements", Description = "24 booster i boxen", Price = 500.00M, Fk_BrandId = 1, Fk_SetId = "POTE", Fk_CategoryId = 3, Fk_ImageId = 5 });
-        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 105, Name = "Photon hypernova", Description = "9 kort i pakken", Price = 40.00M, Fk_BrandId = 1, Fk_SetId = "PHHY", Fk_CategoryId = 2, Fk_ImageId = 6 });
-        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 106, Name = "Photon hypernova", Description = "24 booster i boxen", Price = 500.00M, Fk_BrandId = 1, Fk_SetId = "PHHY", Fk_CategoryId = 3, Fk_ImageId = 7 });
-        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 107, Name = "Darkwing blast", Description = "9 kort i pakken", Price = 40.00M, Fk_BrandId = 1, Fk_SetId = "DABL", Fk_CategoryId = 2, Fk_ImageId = 8 });
-        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 108, Name = "Darkwing blast", Description = "24 booster i boxen", Price = 500.00M, Fk_BrandId = 1, Fk_SetId = "DABL", Fk_CategoryId = 3, Fk_ImageId = 9 });
-        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 109, Name = "Magnificent mavens", Description = "5 ultra kort i pakken", Price = 35.00M, Fk_BrandId = 1, Fk_SetId = "MAMA", Fk_CategoryId = 2, Fk_ImageId = 10 });
-        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 110, Name = "Magnificent mavens", Description = "4 booster pack og 60 sleevs i boxen", Price = 150.00M, Fk_BrandId = 1, Fk_SetId = "MAMA", Fk_CategoryId = 3, Fk_ImageId = 11 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 100, Name = "Battle of legend: Crystal revenge", Description = "4 Ultra rare og 1 secret rare i pakken", Price = 40.00M, Fk_BrandId = 1, Fk_SetId = "BLCR", Fk_CategoryId = 2, Fk_ImageId = 2 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 101, Name = "Battle of legend: Crystal revenge", Description = "24 booster i boxen", Price = 500.00M, Fk_BrandId = 1, Fk_SetId = "BLCR", Fk_CategoryId = 3, Fk_ImageId = 3 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 102, Name = "Power of the Elements", Description = "9 kort i pakken", Price = 40.00M, Fk_BrandId = 1, Fk_SetId = "POTE", Fk_CategoryId = 2, Fk_ImageId = 4 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 103, Name = "Power of the Elements", Description = "24 booster i boxen", Price = 500.00M, Fk_BrandId = 1, Fk_SetId = "POTE", Fk_CategoryId = 3, Fk_ImageId = 5 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 104, Name = "Photon hypernova", Description = "9 kort i pakken", Price = 40.00M, Fk_BrandId = 1, Fk_SetId = "PHHY", Fk_CategoryId = 2, Fk_ImageId = 6 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 105, Name = "Photon hypernova", Description = "24 booster i boxen", Price = 500.00M, Fk_BrandId = 1, Fk_SetId = "PHHY", Fk_CategoryId = 3, Fk_ImageId = 7 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 106, Name = "Darkwing blast", Description = "9 kort i pakken", Price = 40.00M, Fk_BrandId = 1, Fk_SetId = "DABL", Fk_CategoryId = 2, Fk_ImageId = 8 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 107, Name = "Darkwing blast", Description = "24 booster i boxen", Price = 500.00M, Fk_BrandId = 1, Fk_SetId = "DABL", Fk_CategoryId = 3, Fk_ImageId = 9 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 108, Name = "Magnificent mavens", Description = "5 ultra kort i pakken", Price = 35.00M, Fk_BrandId = 1, Fk_SetId = "MAMA", Fk_CategoryId = 2, Fk_ImageId = 10 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 109, Name = "Magnificent mavens", Description = "4 booster pack og 60 sleevs i boxen", Price = 150.00M, Fk_BrandId = 1, Fk_SetId = "MAMA", Fk_CategoryId = 3, Fk_ImageId = 11 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 110, Name = "yberstorm access", Description = "9 kort i pakken", Price = 40.00M, Fk_BrandId = 1, Fk_SetId = "CYAC", Fk_CategoryId = 2, Fk_ImageId = 12 });
+        modelBuilder.Entity<Product>().HasData(new Product { ProductId = 111, Name = "yberstorm access", Description = "24 booster i boxen", Price = 500.00M, Fk_BrandId = 1, Fk_SetId = "CYAC", Fk_CategoryId = 3, Fk_ImageId = 13 });
 
     }
     private void SeedZip(ModelBuilder modelBuilder)

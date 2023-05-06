@@ -30,7 +30,9 @@
             <KrillzCardz.Components.Product product="item"> </KrillzCardz.Components.Product>
         }
     </div>
-
+    @if (count > pages)
+    {
+        
     <div class=" row">
         <ul class="pagination center">
             <li class=@(currentPage == 1 ? "disabled" : "waves-effect")><a @onclick="PreviousPage"><i class="material-icons">chevron_left</i></a></li>
@@ -41,6 +43,7 @@
             <li class=@(totalPages == currentPage ? "disabled" : "waves-effect")><a @onclick="NextPage"><i class="material-icons">chevron_right</i></a></li>
         </ul>
     </div>
+    }
 </div>
 
 @code {

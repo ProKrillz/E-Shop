@@ -28,14 +28,17 @@
     <script>navigator.serviceWorker.register('service-worker.js');</script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>
+        function modalM() {
+            $('.modal').modal();
+        }
         function load() {
             $('.parallax').parallax();  
         }
         function loadSelect() {
             $('select').formSelect();
         }
-        function modalM() {
-            $('#modal1').modal();
+        function updateText() {
+            M.updateTextFields();
         }
     </script>
 </body>

@@ -1,4 +1,6 @@
 ﻿@using KrillzCardz.Services.DTO;
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject IJSRuntime js;
 
 <div class="card hoverable sticky-action col s12 l3">
 
@@ -19,11 +21,36 @@
     </div>
 
     <div class="card-action">
-        <button class="waves-effect btn black white-text">I kurv</button>
+        <button class="waves-effect btn black white-text" onclick="$('#modal2').modal('open')">I kurv</button>
     </div>
 
 </div>
 <div class="col l1"></div>
+
+<!-- Modal Structure -->
+<div id="modal2" class="modal">
+    <div class="modal-content">
+        <h4>@product.name</h4>
+        <p>@product.category</p>
+        <input @bind="amount"/>
+    </div>
+    <div class="modal-footer">
+        <a href="" class="modal-close waves-effect waves-green btn-flat">I kurv</a>
+    </div>
+</div>
+
 @code {
     [Parameter] public ProductModel? product { get; set; } = new();
+
+    private int amount;
+
+    protected override async Task OnInitializedAsync()
+    {     
+        await js.InvokeVoidAsync("modalM");     
+    }
+    async Task AddToCart()
+    {
+        await sessionStorage.SetItemAsync("amunt", 1);
+        await sessionStorage.SetItemAsync("product", product);
+    }
 }

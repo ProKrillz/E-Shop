@@ -16,4 +16,6 @@ public interface IProduct : IBase<Product>
     Task<Product> GetProductByIdAsync(int id);
 
     Task CreateCategoryAsync(string name);
+
+    Task DeleteById(int id);
 }

@@ -3,6 +3,7 @@ using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer.DTO;
 using ServiceLayer.Mapping;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ServiceLayer.I_R;
 
@@ -33,4 +34,12 @@ public class RepositoryProduct : RepositroyBase<Product>, IProduct
     public async Task CreateCategoryAsync(string name)
         => await _coreContext.Category.AddAsync(new Category() { Name = name});
 
+    public async Task DeleteById(int id)
+    {
+        Product product = await GetProductByIdAsync(id);
+        if (product != null)
+        {
+            _coreContext.Product.Remove(product);
+        }
+    }
 }

@@ -25,7 +25,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet("{id:int}", Name = "GetProductById")]
+        [HttpGet(), Route("GetproductById/{id:int}")]
         public ActionResult<ProductDTO> GetProductById(int id)
         {
             Product? product = _productService.FindAll(p => p.ProductId == id)
@@ -53,7 +53,8 @@ namespace WebApi.Controllers
         /// <returns></returns>
         [HttpGet("{currentPage:int}/{pageSize:int}", Name = "GetProductsPageing")]
         public List<ProductDTO> GetProductsPageing(int currentPage, int pageSize)     
-            => _productService.FindAllPage(_productService.FindAll().Include(p => p.Image)
+            => _productService.FindAllPage(_productService.FindAll()
+                .Include(p => p.Image)
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
                 .Include(p => p.Set)
@@ -79,7 +80,7 @@ namespace WebApi.Controllers
         /// </remarks>
         /// <response code="201">Returns the newly created item</response>
         /// <response code="400">If the item is null</response>
-        [HttpPost(), Route("createProduct/{productModel}")]
+        [HttpPost(), Route("createProduct")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> CreateProduct(ProductCreateDTO productModel)
@@ -107,12 +108,12 @@ namespace WebApi.Controllers
         ///         "brandId": 1  
         ///     }
         /// </remarks>
-        [HttpDelete(), Route("delete/{productModel}")]
+        [HttpDelete(), Route("delete/{id:int}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> DeleteProduct(ProductCreateDTO productModel)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
-            _productService.Delete(productModel.MappingProductDTOToProduct());
+            await _productService.DeleteById(id);
             await _productService.CommitAsync();
             return Ok();
         }

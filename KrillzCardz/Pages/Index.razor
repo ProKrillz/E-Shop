@@ -2,7 +2,7 @@
 @using KrillzCardz.Services;
 @using KrillzCardz.Services.DTO;
 @inject IProduct _productService;
-@inject IJSRuntime JS;
+@inject IJSRuntime js;
 
 <div id="index-banner" class="parallax-container z-depth-5">
     <div class="parallax"><img src="./image/banner/banner1.jpg" alt="Unsplashed background img 1"></div>
@@ -116,6 +116,7 @@
     protected override async Task OnInitializedAsync()
     {
         products = await _productService.GetProductWithPageing(1, 3);
+        await js.InvokeVoidAsync("modalM");
     }
 
 }

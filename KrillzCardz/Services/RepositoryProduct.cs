@@ -28,23 +28,27 @@ public class RepositoryProduct : IProduct
         pase.ProductModels = await response.Content.ReadFromJsonAsync<List<ProductModel>>();
         return pase;
     }
-    public async Task CreateProduct(ProductModel product)
+    public async Task CreateProduct(CreateProductModel product)
     {
         // test efter modal
-        await _HttpClient.PostAsJsonAsync($"createProduct/", product);
+        await _HttpClient.PostAsJsonAsync<CreateProductModel>("api/product/createProduct", product);
     }
     public async Task UpdateProduct(ProductModel product)
     {
         // test efter modal om /{product} skal med
         await _HttpClient.PutAsJsonAsync($"updateProduct/{product}", product);
     }
-    public async Task DeleteProduct(ProductModel product)
+    public async Task DeleteProduct(int id)
     {
         //test om virker efter modal
-        await _HttpClient.DeleteAsync($"delete/{product}");
+        await _HttpClient.DeleteAsync($"api/Product/delete/{id}");
     }
     public async Task<List<SetModel>> GetAllSets()
     {
         return await _HttpClient.GetFromJsonAsync<List<SetModel>>("sets");
+    }
+    public async Task<ProductModel> GetProductById(int id)
+    {
+        return await _HttpClient.GetFromJsonAsync<ProductModel>($"api/product/GetproductById/{id}");
     }
 }

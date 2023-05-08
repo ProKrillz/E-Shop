@@ -87,10 +87,6 @@
                     </div>
                     <div class="input-field col s6">
                         <select @onchange="ChangeSet" required>
-                           @* @foreach (var item in sets)
-                            {
-                                <option value="@item.setid">@item.setname</option>
-                            }*@
                             <option value="BLCR">Battle of legend: Crystal revenge</option>
                             <option value="CYAC">Cyberstorm access</option>
                             <option value="DABL">Darkwing blast</option>
@@ -166,7 +162,7 @@
                             <label class="active" for="icon_add">Pris</label>
                     </div>
                     <div class="input-field col s6">
-                        <InputSelect @bind-Value="updateProduct.set" required>
+                            <InputSelect style="display: inline-block;" @bind-Value="updateProduct.setId" required>
                             @* @foreach (var item in sets)
                             {
                             <option value="@item.setid">@item.setname</option>
@@ -183,13 +179,13 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s6">
-                        <InputSelect @bind-Value="updateProduct.brand" required>
+                            <InputSelect style="display: inline-block;" @bind-Value="updateProduct.brandId" required>
                             <option value="1">Konami</option>
                         </InputSelect>
                         <label>Brand</label>
                     </div>
                     <div class="input-field col s6">
-                        <InputSelect @bind-Value="updateProduct.category" required>
+                            <InputSelect style="display: inline-block;" @bind-Value="updateProduct.catId" required>
                             <option value="1">Single</option>
                             <option value="2">Booster</option>
                             <option value="3">Box</option>
@@ -225,7 +221,7 @@
     private CreateProductModel creatProduct = new();
     private List<SetModel> sets = new();
 
-    private ProductModel updateProduct = new();
+    private UpdateProductModel updateProduct = new();
 
     private int currentPage = 1;
 
@@ -286,15 +282,18 @@
     }
     private async Task Delete(int id)
     {
-        await _productService.DeleteProduct(id);            
+        await _productService.DeleteProduct(id);
+        products = await _productService.GetProductWithPageing(currentPage, pages);
+
     }
     private async Task FindUpdate(int id)
     {
-        updateProduct = await _productService.GetProductById(id);
+        updateProduct = await _productService.GetUpdateProductById(id);
     }
     private async Task UpdateProduct()
     {
-        
+        await _productService.UpdateProduct(updateProduct);
+        products = await _productService.GetProductWithPageing(currentPage, pages);
     }
 
 }

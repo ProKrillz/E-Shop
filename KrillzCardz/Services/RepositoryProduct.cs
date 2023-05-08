@@ -33,10 +33,14 @@ public class RepositoryProduct : IProduct
         // test efter modal
         await _HttpClient.PostAsJsonAsync<CreateProductModel>("api/product/createProduct", product);
     }
-    public async Task UpdateProduct(ProductModel product)
+    public async Task UpdateProduct(UpdateProductModel product)
     {
         // test efter modal om /{product} skal med
-        await _HttpClient.PutAsJsonAsync($"updateProduct/{product}", product);
+        await _HttpClient.PutAsJsonAsync<UpdateProductModel>($"api/product/updateProduct", product);
+    }
+    public async Task<UpdateProductModel> GetUpdateProductById(int id)
+    {
+        return await _HttpClient.GetFromJsonAsync<UpdateProductModel>($"api/product/GetUpdateProductById/{id}");
     }
     public async Task DeleteProduct(int id)
     {

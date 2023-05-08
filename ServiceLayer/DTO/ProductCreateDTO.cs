@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-namespace ServiceLayer.DTO;
+﻿namespace ServiceLayer.DTO;
 public class ProductCreateDTO
 {
     public string? Name { get; set; }

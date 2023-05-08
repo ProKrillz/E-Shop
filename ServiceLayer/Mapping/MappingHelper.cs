@@ -47,6 +47,34 @@ public static class MappingHelper
             Fk_CategoryId = dto.CatId,
         };
     }
+    public static Product MappingProductDTOToProduct(this UpdateProductDTO dto)
+    {
+        return new Product()
+        {
+            ProductId = dto.ProductId,
+            Name = dto.Name,
+            Description = dto.Description,
+            Price = dto.Price,
+            Fk_SetId = dto.SetId,
+            Fk_BrandId = dto.BrandId,
+            Fk_CategoryId = dto.CatId,
+        };
+    }
+    public static UpdateProductDTO MappingProductToUpdateProductDTO(this Product product)
+    {
+        return new UpdateProductDTO()
+        {
+            ProductId = product.ProductId,
+            Name = product.Name,
+            Description = product.Description,
+            Price = product.Price,
+            CatId = product.Fk_CategoryId,
+            BrandId = product.Fk_BrandId,
+            SetId = product.Fk_SetId,
+            ImageId = product.Fk_ImageId
+        };
+    }
+
     public static UserDTO MappingUserToUserDTO(this User user)
     {
         return new UserDTO()

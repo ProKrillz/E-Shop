@@ -8,8 +8,9 @@ public interface IProduct
     Task<int> CountProducts();
     Task<ProductPase> SearchProducts(string text, int currentPage, int pageSize);
     Task CreateProduct(CreateProductModel product);
-    Task UpdateProduct(ProductModel product);
+    Task UpdateProduct(UpdateProductModel product);
     Task DeleteProduct(int id);
     Task<List<SetModel>> GetAllSets();
     Task<ProductModel> GetProductById(int id);
+    Task<UpdateProductModel> GetUpdateProductById(int id);
 }

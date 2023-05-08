@@ -136,14 +136,19 @@ namespace WebApi.Controllers
         ///         "brandId": 1  
         ///     }
         /// </remarks>
-        [HttpPut(), Route("updateProduct/{productModel}")]
+        [HttpPut(), Route("updateProduct")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateProductPut(ProductCreateDTO productModel)
+        public async Task<IActionResult> UpdateProductPut(UpdateProductDTO productModel)
         {
             await _productService.UpdateItemAsync(productModel.MappingProductDTOToProduct());
             await _productService.CommitAsync();
             return Ok();
+        }
+        [HttpGet(), Route("GetUpdateProductById/{id:int}")]
+        public async Task<UpdateProductDTO> GetUpdateProductById(int id)
+        {
+            return await _productService.GetUpdateProductById(id);
         }
         /// <summary>
         /// Search all product with contains

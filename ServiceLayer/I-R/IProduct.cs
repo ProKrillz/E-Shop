@@ -18,4 +18,6 @@ public interface IProduct : IBase<Product>
     Task CreateCategoryAsync(string name);
 
     Task DeleteById(int id);
+
+    Task<UpdateProductDTO> GetUpdateProductById(int id);
 }

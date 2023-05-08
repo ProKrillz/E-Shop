@@ -42,4 +42,9 @@ public class RepositoryProduct : RepositroyBase<Product>, IProduct
             _coreContext.Product.Remove(product);
         }
     }
+    public async Task<UpdateProductDTO> GetUpdateProductById(int id)
+    {
+        Product foundProduct = await _coreContext.Product.Where(p => p.ProductId == id).FirstOrDefaultAsync();
+        return foundProduct.MappingProductToUpdateProductDTO();
+    }
 }
